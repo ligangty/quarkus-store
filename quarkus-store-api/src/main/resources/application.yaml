@@ -1,0 +1,81 @@
+# datasource configuration
+quarkus:
+  http:
+    port: 8082
+    read-timeout: 30m
+    limits:
+      max-body-size: 500M
+  application:
+    name: "Quarkus Store API"
+  resteasy:
+    gzip:
+      enabled: true
+      max-input: 64M
+  datasource:
+    db-kind: postgresql
+    username: quarkus
+    password: quarkus
+    jdbc:
+      url: "jdbc:postgresql://localhost:5432/q_store"
+# drop and create the database at startup (use `update` to only update the schema)
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+    packages: foo.bar.store.model
+    sql-load-script: import.sql
+  oidc:
+    enabled: true
+    auth-server-url: "http://localhost:8180/realms/qstore"
+    "client-id": "qstore-api"
+    credentials:
+      secret: "qstore"
+    tls:
+      verification: none
+    token:
+      issuer: any
+    "application-type": "service"
+  log:
+    level: DEBUG
+    min-level: TRACE
+    category:
+      "org.jboss":
+        level: WARN
+      "io.quarkus":
+        level: WARN
+      "io.quarkiverse":
+        level: DEBUG
+      "io.smallrye":
+        level: WARN
+      "org.eclipse":
+        level: WARN
+      "io.netty":
+        level: WARN
+      "foo.bar.store":
+        level: TRACE
+    console:
+      enable: true
+      level: DEBUG
+    file:
+      level: DEBUG
+      enable: true
+      path: "log/quarkus-store-api.log"
+      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+      rotation:
+        max-backup-index: 5
+        max-file-size: 10M
+  swagger-ui:
+    always-include: true
+
+#"%dev":
+#  quarkus:
+#    datasource:
+#      db-kind: h2
+#      username: quarkus
+#      password: quarkus
+#      jdbc:
+#        url: "jdbc:postgresql://localhost:5432/q_store"
+
+"%prod":
+  quarkus:
+    hibernate-orm:
+      sql-load-script: no-file

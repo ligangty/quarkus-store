@@ -1,0 +1,106 @@
+quarkus:
+  http:
+    port: 8081
+    read-timeout: 30m
+    limits:
+      max-body-size: 500M
+  package:
+    type: uber-jar
+  application:
+    name: "Quarkus Store UI"
+  resteasy:
+    gzip:
+      enabled: true
+      max-input: 64M
+  keycloak:
+    devservices:
+      enabled: false
+  oidc:
+    enabled: false
+#    auth-server-url: "http://localhost:8180/realms/qstore"
+#    "client-id": "quarkus"
+#    credentials:
+#      secret: "secret"
+#    tls:
+#      verification: none
+#    token:
+#      issuer: any
+#    "application-type": "web-app"
+  security:
+    auth:
+      enabled-in-dev-mode: false
+  log:
+    level: INFO
+    min-level: TRACE
+    category:
+      "org.jboss":
+        level: WARN
+      "io.quarkus":
+        level: WARN
+      "io.smallrye":
+        level: WARN
+      "org.eclipse":
+        level: WARN
+      "io.netty":
+        level: WARN
+      "foo.bar.store":
+        level: TRACE
+    console:
+      enable: true
+      level: DEBUG
+    file:
+      level: DEBUG
+      enable: true
+      path: "log/quarkus-store-ui.log"
+      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+      rotation:
+        max-backup-index: 5
+        max-file-size: 10M
+
+  quinoa:
+    # ui-dir: "webui"
+    build-dir: "build"
+    package-manager-install:
+      ~: true
+      node-version: "18.12.1"
+      npm-version: "9.4.0"
+    package-manager-command:
+      install-env:
+        strict-ssl: false
+      install: "npm ci"
+
+store-service-api/mp-rest/url: http://localhost:8082
+store-service-api/mp-rest/scope: javax.inject.Singleton
+store-service-api/mp-rest/connectTimeout: 60000
+store-service-api/mp-rest/readTimeout: 60000
+
+"%dev":
+  quarkus:
+    log:
+      level: TRACE
+      min-level: TRACE
+      category:
+        "org.jboss":
+          level: INFO
+        "io.quarkus":
+          level: INFO
+        "io.smallrye":
+          level: INFO
+        "org.eclipse":
+          level: INFO
+        "io.netty":
+          level: INFO
+        "foo.bar.store":
+          level: TRACE
+      console:
+        enable: true
+      file:
+        enable: true
+        path: "/tmp/quarkus-store-ui.log"
+        format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+        rotation:
+          max-backup-index: 5
+          max-file-size: 10M
+    quinoa:
+      package-manager-command:
+        install: "npm ci"
