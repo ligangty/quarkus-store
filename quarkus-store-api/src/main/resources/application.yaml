@@ -40,6 +40,8 @@ quarkus:
     category:
       "org.jboss":
         level: WARN
+      "org.hibernate":
+        level: INFO
       "io.quarkus":
         level: WARN
       "io.quarkiverse":

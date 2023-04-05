@@ -16,6 +16,7 @@
 package foo.bar.store.jaxrs.auth;
 
 import io.quarkus.security.identity.SecurityIdentity;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,12 +63,13 @@ public class SecurityInterceptor
     {
         if ( GET.equals( method ) )
         {
+            logger.debug( "No access limitation for GET method." );
             return true;
         }
         Principal user = identity.getPrincipal();
-        if ( user != null && user.getName() != null )
+        if ( user != null && StringUtils.isNotBlank( user.getName() ) )
         {
-            logger.info( "Logged in user: {}", user );
+            logger.info( "Logged in user: {}", user.getName() );
             return true;
         }
         logger.info( "User not logged in, can not access non-GET methods" );
