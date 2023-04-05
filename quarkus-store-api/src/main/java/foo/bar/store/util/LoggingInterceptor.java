@@ -26,7 +26,7 @@ public class LoggingInterceptor
     // ======================================
 
     @AroundInvoke
-    private Object intercept( InvocationContext ic )
+    public Object intercept( InvocationContext ic )
             throws Exception
     {
         logger.entering( ic.getTarget().getClass().getName(), ic.getMethod().getName() );
