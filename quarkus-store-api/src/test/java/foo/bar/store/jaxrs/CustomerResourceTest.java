@@ -1,4 +1,4 @@
-package foo.bar.store;
+package foo.bar.store.jaxrs;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
@@ -7,10 +7,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-public class GreetingResourceTest {
-
+public class CustomerResourceTest
+{
     @Test
-    public void testHelloEndpoint() {
+    public void testFindById() {
 //        given()
 //          .when().get("/api/hello")
 //          .then()
