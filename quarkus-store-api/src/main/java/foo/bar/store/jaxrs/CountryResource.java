@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -39,6 +40,7 @@ public class CountryResource
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates a country" )
+    @Transactional
     public Response create( Country entity )
     {
         em.persist( entity );
@@ -50,6 +52,7 @@ public class CountryResource
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
     @Operation( description = "Deletes a country given an id" )
+    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
         Country entity = em.find( Country.class, id );
@@ -109,6 +112,7 @@ public class CountryResource
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a country" )
+    @Transactional
     public Response update( @PathParam( "id" ) final Long id, Country entity )
     {
         try

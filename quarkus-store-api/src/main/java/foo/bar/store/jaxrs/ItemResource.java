@@ -3,7 +3,6 @@ package foo.bar.store.jaxrs;
 import foo.bar.store.model.Item;
 import foo.bar.store.service.ItemService;
 import foo.bar.store.util.Loggable;
-import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
@@ -11,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -41,6 +41,7 @@ public class ItemResource
 
     @POST
     @Consumes( APPLICATION_JSON )
+    @Transactional
     public Response create( Item entity )
     {
         em.persist( entity );
@@ -51,6 +52,7 @@ public class ItemResource
 
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
+    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
         Item entity = em.find( Item.class, id );
@@ -107,6 +109,7 @@ public class ItemResource
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
+    @Transactional
     public Response update( @PathParam( "id" ) final Long id, Item entity )
     {
         try

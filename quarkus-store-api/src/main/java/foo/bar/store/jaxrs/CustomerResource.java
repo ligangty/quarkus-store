@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,6 +39,7 @@ public class CustomerResource
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates a customer" )
+    @Transactional
     public Response create( Customer entity )
     {
         em.persist( entity );
@@ -49,6 +51,7 @@ public class CustomerResource
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
     @Operation( description = "Deletes a customer by id" )
+    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
         Customer entity = em.find( Customer.class, id );
@@ -110,6 +113,7 @@ public class CustomerResource
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a customer" )
+    @Transactional
     public Response update( @PathParam( "id" ) final Long id, Customer entity )
     {
         try
