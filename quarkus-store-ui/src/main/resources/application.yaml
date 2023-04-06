@@ -1,17 +1,11 @@
 quarkus:
+  application:
+    name: "Quarkus Store UI"
   http:
     port: 8081
     read-timeout: 30m
-    limits:
-      max-body-size: 500M
   package:
     type: uber-jar
-  application:
-    name: "Quarkus Store UI"
-  resteasy:
-    gzip:
-      enabled: true
-      max-input: 64M
   keycloak:
     devservices:
       enabled: false

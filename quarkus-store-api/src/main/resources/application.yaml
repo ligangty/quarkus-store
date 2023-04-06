@@ -1,23 +1,18 @@
 # datasource configuration
 quarkus:
+  application:
+    name: "Quarkus Store API"
   http:
     port: 8082
     read-timeout: 30m
-    limits:
-      max-body-size: 500M
-  application:
-    name: "Quarkus Store API"
-  resteasy:
-    gzip:
-      enabled: true
-      max-input: 64M
+  package:
+    type: uber-jar
   datasource:
     db-kind: postgresql
     username: quarkus
     password: quarkus
     jdbc:
       url: "jdbc:postgresql://localhost:5432/q_store"
-# drop and create the database at startup (use `update` to only update the schema)
   hibernate-orm:
     database:
       generation: drop-and-create
