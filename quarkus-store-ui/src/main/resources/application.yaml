@@ -4,6 +4,7 @@ quarkus:
   http:
     port: 8081
     read-timeout: 30m
+    enable-compression: true
   package:
     type: uber-jar
   keycloak:

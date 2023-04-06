@@ -5,6 +5,7 @@ quarkus:
   http:
     port: 8082
     read-timeout: 30m
+    enable-compression: true
   package:
     type: uber-jar
   datasource:
