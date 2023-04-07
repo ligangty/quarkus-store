@@ -14,10 +14,6 @@ public class Address
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Column( length = 50, nullable = false )
     @Size( min = 5, max = 50 )
     @NotNull
@@ -42,10 +38,6 @@ public class Address
     @ManyToOne( cascade = CascadeType.PERSIST )
     private Country country = new Country();
 
-    // ======================================
-    // = Constructors =
-    // ======================================
-
     public Address()
     {
     }
@@ -57,10 +49,6 @@ public class Address
         this.zipcode = zipcode;
         this.country = country;
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public String getStreet1()
     {
@@ -121,10 +109,6 @@ public class Address
     {
         this.country = country;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

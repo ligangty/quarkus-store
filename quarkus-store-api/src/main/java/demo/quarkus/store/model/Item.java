@@ -32,10 +32,6 @@ public class Item
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", updatable = false, nullable = false )
@@ -69,19 +65,11 @@ public class Item
     @XmlTransient
     private Product product;
 
-    // ======================================
-    // = Constants =
-    // ======================================
-
     public static final String FIND_BY_PRODUCT_ID = "Item.findByProductId";
 
     public static final String SEARCH = "Item.search";
 
     public static final String FIND_ALL = "Item.findAll";
-
-    // ======================================
-    // = Constructors =
-    // ======================================
 
     public Item()
     {
@@ -95,10 +83,6 @@ public class Item
         this.description = description;
         this.product = product;
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public Long getId()
     {
@@ -169,10 +153,6 @@ public class Item
     {
         this.product = product;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

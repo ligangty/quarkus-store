@@ -17,7 +17,6 @@ public class CatalogService
         implements Serializable
 {
 
-
     @Inject
     EntityManager em;
 

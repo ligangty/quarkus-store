@@ -84,7 +84,6 @@ public class CategoryBean
     public void retrieve()
     {
 
-
         if ( this.conversation.isTransient() )
         {
             this.conversation.begin();

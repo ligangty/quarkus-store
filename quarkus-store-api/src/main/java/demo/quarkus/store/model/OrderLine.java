@@ -11,10 +11,6 @@ public class OrderLine
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", updatable = false, nullable = false )
@@ -31,10 +27,6 @@ public class OrderLine
     @ManyToOne( cascade = CascadeType.PERSIST )
     @JoinColumn( name = "item_fk", nullable = false )
     private Item item;
-
-    // ======================================
-    // = Constructors =
-    // ======================================
 
     public OrderLine()
     {
@@ -54,10 +46,6 @@ public class OrderLine
     {
         return item.getUnitCost() * quantity;
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public Long getId()
     {
@@ -98,10 +86,6 @@ public class OrderLine
     {
         this.item = item;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

@@ -11,19 +11,13 @@ public class CredentialsBean
         implements Serializable
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     private String login;
 
     private String password;
 
     private String password2;
 
-    // ======================================
-    // =         Getters & setters          =
-    // ======================================
+
 
     public String getLogin()
     {

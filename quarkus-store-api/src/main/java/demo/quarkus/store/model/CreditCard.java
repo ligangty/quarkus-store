@@ -14,10 +14,6 @@ public class CreditCard
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Column( length = 30, name = "credit_card_number", nullable = false )
     @NotNull
     @Size( min = 1, max = 30 )
@@ -33,10 +29,6 @@ public class CreditCard
     @Size( min = 1, max = 5 )
     private String creditCardExpDate;
 
-    // ======================================
-    // = Constructors =
-    // ======================================
-
     public CreditCard()
     {
     }
@@ -47,10 +39,6 @@ public class CreditCard
         this.creditCardType = creditCardType;
         this.creditCardExpDate = creditCardExpDate;
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public String getCreditCardNumber()
     {
@@ -81,10 +69,6 @@ public class CreditCard
     {
         this.creditCardExpDate = creditCardExpDate;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public final boolean equals( Object o )

@@ -22,22 +22,10 @@ public class CustomerService
         implements Serializable
 {
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
-
     public CustomerService()
     {
         super( Customer.class );
     }
-
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
-    // ======================================
-    // =              Public Methods        =
-    // ======================================
 
     public boolean doesLoginAlreadyExist( @NotNull String login )
     {
@@ -110,10 +98,6 @@ public class CustomerService
     {
         return entityManager.find( Country.class, countryId );
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     @Override
     protected Predicate[] getSearchPredicates( Root<Customer> root, Customer example )

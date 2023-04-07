@@ -28,14 +28,6 @@ public class PurchaseOrderService
         implements Serializable
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
-    // ======================================
-    // =              Public Methods        =
-    // ======================================
-
     public PurchaseOrder createOrder( @NotNull Customer customer, @NotNull CreditCard creditCard,
                                       final List<ShoppingCartItem> cartItems )
     {
@@ -83,10 +75,6 @@ public class PurchaseOrderService
     {
         entityManager.remove( entityManager.merge( order ) );
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     @Override
     protected Predicate[] getSearchPredicates( Root<PurchaseOrder> root, PurchaseOrder example )

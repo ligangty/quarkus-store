@@ -85,7 +85,6 @@ public class ProductBean
     public void retrieve()
     {
 
-
         if ( this.conversation.isTransient() )
         {
             this.conversation.begin();

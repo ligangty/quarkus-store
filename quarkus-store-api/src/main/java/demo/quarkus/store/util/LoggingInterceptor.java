@@ -7,23 +7,14 @@ import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-
 @Loggable
 @Interceptor
 public class LoggingInterceptor
         implements Serializable
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     @Inject
     transient Logger logger;
-
-    // ======================================
-    // =          Business methods          =
-    // ======================================
 
     @AroundInvoke
     public Object intercept( InvocationContext ic )

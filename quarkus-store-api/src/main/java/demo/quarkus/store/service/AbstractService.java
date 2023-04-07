@@ -15,18 +15,11 @@ import demo.quarkus.store.util.Loggable;
 public abstract class AbstractService<T>
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     @Inject
+
     protected EntityManager entityManager;
 
     private Class<T> entityClass;
-
-    // ======================================
-    // =            Constructors            =
-    // ======================================
 
     public AbstractService()
     {
@@ -36,10 +29,6 @@ public abstract class AbstractService<T>
     {
         this.entityClass = entityClass;
     }
-
-    // ======================================
-    // =          Business methods          =
-    // ======================================
 
     public T persist( T entity )
     {
@@ -118,10 +107,6 @@ public abstract class AbstractService<T>
         return pageItems;
 
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     protected abstract Predicate[] getSearchPredicates( Root<T> root, T example );
 }

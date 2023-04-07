@@ -36,7 +36,6 @@ public class CountryResource
     @Inject
     EntityManager em;
 
-
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates a country" )

@@ -33,10 +33,6 @@ public class PurchaseOrder
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", updatable = false, nullable = false )
@@ -88,15 +84,7 @@ public class PurchaseOrder
     @Valid
     private CreditCard creditCard = new CreditCard();
 
-    // ======================================
-    // = Constants =
-    // ======================================
-
     public static final String FIND_ALL = "Order.findAll";
-
-    // ======================================
-    // = Constructors =
-    // ======================================
 
     public PurchaseOrder()
     {
@@ -118,10 +106,6 @@ public class PurchaseOrder
     {
         orderDate = new Date();
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public Long getId()
     {
@@ -262,10 +246,6 @@ public class PurchaseOrder
     {
         this.creditCard = creditCard;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

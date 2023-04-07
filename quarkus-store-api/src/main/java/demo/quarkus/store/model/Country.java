@@ -18,10 +18,6 @@ public class Country
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", updatable = false, nullable = false )
@@ -56,10 +52,6 @@ public class Country
     @Size( min = 3, max = 3 )
     private String numcode;
 
-    // ======================================
-    // = Constructors =
-    // ======================================
-
     public Country()
     {
     }
@@ -72,10 +64,6 @@ public class Country
         this.iso3 = iso3;
         this.numcode = numcode;
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public Long getId()
     {
@@ -146,10 +134,6 @@ public class Country
     {
         this.numcode = numcode;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

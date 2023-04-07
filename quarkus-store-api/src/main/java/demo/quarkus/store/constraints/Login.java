@@ -22,19 +22,11 @@ import java.lang.annotation.Target;
 public @interface Login
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     String message() default "{demo.quarkus.store.constraints.Login.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    // ======================================
-    // =          Inner Annotation          =
-    // ======================================
 
     @Retention( RetentionPolicy.RUNTIME )
     @Target( { ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE,

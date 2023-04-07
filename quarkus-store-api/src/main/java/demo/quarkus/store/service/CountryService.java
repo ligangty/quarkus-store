@@ -16,18 +16,10 @@ public class CountryService
         implements Serializable
 {
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
-
     public CountryService()
     {
         super( Country.class );
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     @Override
     protected Predicate[] getSearchPredicates( Root<Country> root, Country example )

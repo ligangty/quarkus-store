@@ -32,9 +32,7 @@ public class OrderLine
         return item.getUnitCost() * quantity;
     }
 
-    // ======================================
-    // = Getters & setters =
-    // ======================================
+
 
     public Long getId()
     {
@@ -76,9 +74,7 @@ public class OrderLine
         this.item = item;
     }
 
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
+
 
     @Override
     public boolean equals( Object o )

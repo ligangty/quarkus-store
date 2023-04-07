@@ -16,18 +16,10 @@ public class CategoryService
         implements Serializable
 {
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
-
     public CategoryService()
     {
         super( Category.class );
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     @Override
     protected Predicate[] getSearchPredicates( Root<Category> root, Category example )

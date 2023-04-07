@@ -30,9 +30,7 @@ public class Item
     @XmlTransient
     private Product product;
 
-    // ======================================
-    // = Constants =
-    // ======================================
+
 
     public static final String FIND_BY_PRODUCT_ID = "Item.findByProductId";
 
@@ -40,9 +38,7 @@ public class Item
 
     public static final String FIND_ALL = "Item.findAll";
 
-    // ======================================
-    // = Constructors =
-    // ======================================
+
 
     public Item()
     {
@@ -57,9 +53,7 @@ public class Item
         this.product = product;
     }
 
-    // ======================================
-    // = Getters & setters =
-    // ======================================
+
 
     public Long getId()
     {
@@ -131,9 +125,7 @@ public class Item
         this.product = product;
     }
 
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
+
 
     @Override
     public boolean equals( Object o )

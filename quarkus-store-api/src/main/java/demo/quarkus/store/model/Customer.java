@@ -42,10 +42,6 @@ public class Customer
         implements Serializable
 {
 
-    // ======================================
-    // = Attributes =
-    // ======================================
-
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", updatable = false, nullable = false )
@@ -94,10 +90,6 @@ public class Customer
     @Valid
     private Address homeAddress = new Address();
 
-    // ======================================
-    // = Constants =
-    // ======================================
-
     public static final String FIND_BY_LOGIN = "Customer.findByLogin";
 
     public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
@@ -107,10 +99,6 @@ public class Customer
     public static final String FIND_BY_EMAIL = "Customer.findByEmail";
 
     public static final String FIND_BY_UUID = "Customer.findByUUID";
-
-    // ======================================
-    // = Constructors =
-    // ======================================
 
     public Customer()
     {
@@ -180,10 +168,6 @@ public class Customer
             throw new RuntimeException( "Exception encoding password", e );
         }
     }
-
-    // ======================================
-    // = Getters & setters =
-    // ======================================
 
     public Long getId()
     {
@@ -304,10 +288,6 @@ public class Customer
     {
         this.homeAddress = homeAddress;
     }
-
-    // ======================================
-    // = Methods hash, equals, toString =
-    // ======================================
 
     @Override
     public boolean equals( Object o )

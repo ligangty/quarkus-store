@@ -31,10 +31,6 @@ public class ShoppingCartBean
         implements Serializable
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     @Inject
     @LoggedIn
     private Instance<Customer> loggedInCustomer;
@@ -53,10 +49,6 @@ public class ShoppingCartBean
     private CreditCard creditCard = new CreditCard();
 
     private PurchaseOrder order;
-
-    // ======================================
-    // =              Public Methods        =
-    // ======================================
 
     public String addItemToCart()
     {
@@ -155,10 +147,6 @@ public class ShoppingCartBean
         }
         return total;
     }
-
-    // ======================================
-    // =         Getters & setters          =
-    // ======================================
 
     public Customer getCustomer()
     {

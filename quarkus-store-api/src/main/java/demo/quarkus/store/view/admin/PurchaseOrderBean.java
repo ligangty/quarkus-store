@@ -84,7 +84,6 @@ public class PurchaseOrderBean
     public void retrieve()
     {
 
-
         if ( this.conversation.isTransient() )
         {
             this.conversation.begin();

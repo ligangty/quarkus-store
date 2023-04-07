@@ -22,11 +22,8 @@ public class AccountBean
         implements Serializable
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     @Inject
+
     CustomerService customerService;
 
     @Inject
@@ -34,7 +31,6 @@ public class AccountBean
 
     @LoggedIn
     Customer loggedinCustomer;
-
 
     public String doLogin()
             throws LoginException

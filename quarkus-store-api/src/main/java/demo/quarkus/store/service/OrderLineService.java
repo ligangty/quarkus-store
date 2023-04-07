@@ -18,18 +18,10 @@ public class OrderLineService
         implements Serializable
 {
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
-
     public OrderLineService()
     {
         super( OrderLine.class );
     }
-
-    // ======================================
-    // =         Protected methods          =
-    // ======================================
 
     @Override
     protected Predicate[] getSearchPredicates( Root<OrderLine> root, OrderLine example )

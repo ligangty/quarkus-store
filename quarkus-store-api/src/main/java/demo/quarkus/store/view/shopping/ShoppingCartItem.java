@@ -8,10 +8,6 @@ import javax.validation.constraints.NotNull;
 public class ShoppingCartItem
 {
 
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
     @NotNull
     private Item item;
 
@@ -19,28 +15,16 @@ public class ShoppingCartItem
     @Min( 1 )
     private Integer quantity;
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
-
     public ShoppingCartItem( Item item, Integer quantity )
     {
         this.item = item;
         this.quantity = quantity;
     }
 
-    // ======================================
-    // =              Public Methods        =
-    // ======================================
-
     public Float getSubTotal()
     {
         return item.getUnitCost() * quantity;
     }
-
-    // ======================================
-    // =         Getters & setters          =
-    // ======================================
 
     public Item getItem()
     {
@@ -69,25 +53,25 @@ public class ShoppingCartItem
     @Override
     public boolean equals( Object o )
     {
-       if ( this == o )
-       {
-          return true;
-       }
-       if ( o == null || getClass() != o.getClass() )
-       {
-          return false;
-       }
+        if ( this == o )
+        {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
 
         ShoppingCartItem cartItem = (ShoppingCartItem) o;
 
-       if ( !item.equals( cartItem.item ) )
-       {
-          return false;
-       }
-       if ( !quantity.equals( cartItem.quantity ) )
-       {
-          return false;
-       }
+        if ( !item.equals( cartItem.item ) )
+        {
+            return false;
+        }
+        if ( !quantity.equals( cartItem.quantity ) )
+        {
+            return false;
+        }
 
         return true;
     }
