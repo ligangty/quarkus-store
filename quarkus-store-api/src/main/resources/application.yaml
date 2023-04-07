@@ -17,7 +17,7 @@ quarkus:
   hibernate-orm:
     database:
       generation: drop-and-create
-    packages: foo.bar.store.model
+    packages: demo.quarkus.store.model
     sql-load-script: import.sql
   oidc:
     enabled: true
@@ -48,7 +48,7 @@ quarkus:
         level: WARN
       "io.netty":
         level: WARN
-      "foo.bar.store":
+      "demo.quarkus.store":
         level: TRACE
     console:
       enable: true

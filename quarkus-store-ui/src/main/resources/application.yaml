@@ -38,7 +38,7 @@ quarkus:
         level: WARN
       "io.netty":
         level: WARN
-      "foo.bar.store":
+      "demo.quarkus.store":
         level: TRACE
     console:
       enable: true
@@ -85,7 +85,7 @@ store-service-api/mp-rest/readTimeout: 60000
           level: INFO
         "io.netty":
           level: INFO
-        "foo.bar.store":
+        "demo.quarkus.store":
           level: TRACE
       console:
         enable: true
