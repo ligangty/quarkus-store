@@ -5,11 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.util.Base64;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Customer
@@ -34,10 +30,6 @@ public class Customer
 
     private String login;
 
-    @NotNull
-    @Size( min = 1, max = 256 )
-    private String password;
-
     @Size( min = 1, max = 256 )
     private String uuid;
 
@@ -51,81 +43,20 @@ public class Customer
     @Valid
     private Address homeAddress = new Address();
 
-    public static final String FIND_BY_LOGIN = "Customer.findByLogin";
-
-    public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
-
-    public static final String FIND_ALL = "Customer.findAll";
-
-    public static final String FIND_BY_EMAIL = "Customer.findByEmail";
-
-    public static final String FIND_BY_UUID = "Customer.findByUUID";
-
-
     public Customer()
     {
     }
 
-    public Customer( String firstName, String lastName, String login, String plainTextPassword, String email,
-                     Address address )
+    public Customer( String firstName, String lastName, String login, String email, Address address )
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
-        this.password = digestPassword( plainTextPassword );
         this.email = email;
         this.homeAddress = address;
         this.dateOfBirth = new Date();
     }
 
-    /**
-     * This method calculates the age of the customer
-     */
-    public void calculateAge()
-    {
-        if ( dateOfBirth == null )
-        {
-            age = null;
-            return;
-        }
-
-        Calendar birth = new GregorianCalendar();
-        birth.setTime( dateOfBirth );
-        Calendar now = new GregorianCalendar();
-        now.setTime( new Date() );
-        int adjust = 0;
-        if ( now.get( Calendar.DAY_OF_YEAR ) - birth.get( Calendar.DAY_OF_YEAR ) < 0 )
-        {
-            adjust = -1;
-        }
-        age = now.get( Calendar.YEAR ) - birth.get( Calendar.YEAR ) + adjust;
-    }
-
-    private void digestPassword()
-    {
-        password = digestPassword( password );
-    }
-
-    /**
-     * Digest password with <code>SHA-256</code> then encode it with Base64.
-     *
-     * @param plainTextPassword the password to digest and encode
-     * @return digested password
-     */
-    public String digestPassword( String plainTextPassword )
-    {
-        try
-        {
-            MessageDigest md = MessageDigest.getInstance( "SHA-256" );
-            md.update( plainTextPassword.getBytes( "UTF-8" ) );
-            byte[] passwordDigest = md.digest();
-            return Base64.getEncoder().encodeToString( passwordDigest );
-        }
-        catch ( Exception e )
-        {
-            throw new RuntimeException( "Exception encoding password", e );
-        }
-    }
 
     public Long getId()
     {
@@ -175,16 +106,6 @@ public class Customer
     public void setUuid( String uuid )
     {
         this.uuid = uuid;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword( String password )
-    {
-        this.password = password;
     }
 
     public String getFirstName()

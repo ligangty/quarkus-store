@@ -7,7 +7,7 @@ export default class NavFooter extends React.Component {
       <div id="footer">
           <div className="container">
               <div className="col-md-2 centered-text">
-                  <a href="https://github.com/ligangty/quarkus-live-demo">Source code on GitHub</a>
+                  <a href="https://github.com/ligangty/quarkus-store">Source code on GitHub</a>
                   <br />
               </div>
               <div className="col-md-8"></div>

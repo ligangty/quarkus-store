@@ -67,15 +67,15 @@ public class CustomerService
         }
     }
 
-    public Customer findCustomer( @NotNull String login, @NotNull String password )
-    {
-        TypedQuery<Customer> typedQuery =
-                entityManager.createNamedQuery( Customer.FIND_BY_LOGIN_PASSWORD, Customer.class );
-        typedQuery.setParameter( "login", login );
-        typedQuery.setParameter( "password", password );
-
-        return typedQuery.getSingleResult();
-    }
+//    public Customer findCustomer( @NotNull String login, @NotNull String password )
+//    {
+//        TypedQuery<Customer> typedQuery =
+//                entityManager.createNamedQuery( Customer.FIND_BY_LOGIN_PASSWORD, Customer.class );
+//        typedQuery.setParameter( "login", login );
+//        typedQuery.setParameter( "password", password );
+//
+//        return typedQuery.getSingleResult();
+//    }
 
     public List<Customer> findAllCustomers()
     {

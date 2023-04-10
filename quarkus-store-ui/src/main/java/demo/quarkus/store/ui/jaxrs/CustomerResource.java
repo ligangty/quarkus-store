@@ -1,67 +1,95 @@
 package demo.quarkus.store.ui.jaxrs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import demo.quarkus.store.ui.model.Customer;
-import demo.quarkus.store.ui.restclient.CustomerClient;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import io.quarkus.oidc.IdToken;
+import io.quarkus.oidc.UserInfo;
+import io.quarkus.security.identity.SecurityIdentity;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-@Path( "/api/customers" )
+@Path( "/api/users" )
 public class CustomerResource
 {
+    private final Logger logger = LoggerFactory.getLogger( this.getClass() );
+
     @Inject
-    @RestClient
-    CustomerClient client;
+    SecurityIdentity identity;
 
-    @POST
-    @Consumes( APPLICATION_JSON )
-    public Response create( Customer entity )
-    {
-        return client.create( entity );
-    }
+    @Inject
+    ObjectMapper mapper;
 
-    @DELETE
-    @Path( "/{id:[0-9][0-9]*}" )
-    public Response deleteById( @PathParam( "id" ) Long id )
-    {
-        return client.deleteById( id );
-    }
+    @Inject
+    @IdToken
+    JsonWebToken token;
 
     @GET
-    @Path( "/{id:[0-9][0-9]*}" )
+    @Path( "loggedIn" )
     @Produces( APPLICATION_JSON )
-    public Response findById( @PathParam( "id" ) Long id )
+    public Response loggedInCustomer()
     {
-        return client.findById( id );
+        Customer loggedInUser;
+
+        Map<String, Object> attributes = identity.getAttributes();
+        UserInfo userInfo = (UserInfo) attributes.get( "userinfo" );
+        if ( userInfo != null && userInfo.getUserInfoString() != null )
+        {
+            try
+            {
+                Map userInfoMap = mapper.readValue( userInfo.getUserInfoString(), Map.class );
+                logger.debug( "userInfo Map: {}", userInfoMap );
+                loggedInUser = convertUser( userInfoMap );
+            }
+            catch ( JsonProcessingException e )
+            {
+                return Response.status( NOT_FOUND ).build();
+            }
+            Set<String> roles = identity.getRoles();
+            logger.debug( "Roles {}", roles );
+
+            return Response.ok( loggedInUser ).build();
+        }
+
+        return Response.status( NOT_FOUND ).build();
     }
 
-    @GET
-    @Produces( APPLICATION_JSON )
-    public List<Customer> listAll( @QueryParam( "start" ) Integer startPosition,
-                                   @QueryParam( "max" ) Integer maxResult )
+    private Customer convertUser( Map<String, Object> userInfo )
     {
-        return client.listAll( startPosition, maxResult );
-    }
-
-    @PUT
-    @Path( "/{id:[0-9][0-9]*}" )
-    @Consumes( APPLICATION_JSON )
-    public Response update( @PathParam( "id" ) final Long id, Customer entity )
-    {
-
-        return client.update( id, entity );
+        Customer user = new Customer();
+        String userName = (String) userInfo.get( "preferred_username" );
+        if ( isNotBlank( userName ) )
+        {
+            user.setLogin( userName );
+        }
+        final String firstName = (String) userInfo.get( "given_name" );
+        if ( isNotBlank( firstName ) )
+        {
+            user.setFirstName( firstName );
+        }
+        final String lastName = (String) userInfo.get( "family_name" );
+        if ( isNotBlank( lastName ) )
+        {
+            user.setLastName( lastName );
+        }
+        final String email = (String) userInfo.get( "email" );
+        if ( isNotBlank( email ) )
+        {
+            user.setEmail( email );
+        }
+        return user;
     }
 }

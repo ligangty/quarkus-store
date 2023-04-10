@@ -1,10 +1,54 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {APP_ROOT} from '../Constants.js';
+import {jsonGet} from '../../RestClient.js';
 
-// mock user login
-// const isUserloggedIn = true;
-// const username = "mock";
+const LoggedInUser = function(){
+  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+  const onClickUserAccount = () => {
+    navigate(`/shopping/showaccount`,{state: user});
+  };
+  let getUrl = `/api/users/loggedIn`;
+  useEffect(()=>{
+    jsonGet({
+      url: getUrl,
+      done: response => {
+        let raw = response;
+        setUser(raw);
+      },
+      fail: errorText => {
+        console.log(JSON.parse(errorText).error);
+      }
+    });
+  }, []);
+  if(user){
+    return (
+      <React.Fragment>
+        <li>
+        <a onClick={()=>onClickUserAccount()}>Welcome {user.login}
+            <i className="fa fa-user" aria-hidden="true" />
+        </a>
+        </li>
+        <li>
+          <a href="/logout"><i className="fa fa-sign-out" aria-hidden="true"></i>Log out</a>
+        </li>
+        <li />
+        <li />
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      <li />
+      <li />
+      <li>
+        <a href="/login">Log in<i className="fa fa-sign-in" aria-hidden="true"></i></a>
+      </li>
+      <li />
+    </React.Fragment>
+  );
+};
 
 const SearchForm = function(){
   const [content, setContent]= useState("");
@@ -51,12 +95,7 @@ export default function NavHeader() {
             </li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
-              <li></li>
-              <li></li>
-              <li>
-                <a href="/applicationPetstore/shopping/signon.xhtml">Log in<i className="fa fa-sign-in" aria-hidden="true"></i></a>
-              </li>
-              <li></li>
+              <LoggedInUser />
               <li>
                 <SearchForm />
               </li>

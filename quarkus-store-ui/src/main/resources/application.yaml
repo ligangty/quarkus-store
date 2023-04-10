@@ -16,6 +16,8 @@ quarkus:
 #    "client-id": "quarkus"
 #    credentials:
 #      secret: "secret"
+#    authentication:
+#      user-info-required: true
 #    tls:
 #      verification: none
 #    token:

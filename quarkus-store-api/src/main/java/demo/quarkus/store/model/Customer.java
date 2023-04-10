@@ -33,11 +33,12 @@ import java.util.Objects;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Entity
-@NamedQueries(
-        { @NamedQuery( name = Customer.FIND_BY_LOGIN, query = "SELECT c FROM Customer c WHERE c.login = :login" ),
-                @NamedQuery( name = Customer.FIND_BY_EMAIL, query = "SELECT c FROM Customer c WHERE c.email = :email" ),
-                @NamedQuery( name = Customer.FIND_BY_UUID, query = "SELECT c FROM Customer c WHERE c.uuid = :uuid" ),
-                @NamedQuery( name = Customer.FIND_ALL, query = "SELECT c FROM Customer c" ) } )
+@NamedQueries({
+        @NamedQuery( name = Customer.FIND_BY_LOGIN, query = "SELECT c FROM Customer c WHERE c.login = :login"),
+        @NamedQuery( name = Customer.FIND_BY_EMAIL, query = "SELECT c FROM Customer c WHERE c.email = :email"),
+        @NamedQuery( name = Customer.FIND_BY_UUID, query = "SELECT c FROM Customer c WHERE c.uuid = :uuid"),
+        @NamedQuery( name = Customer.FIND_ALL, query = "SELECT c FROM Customer c")
+})
 public class Customer
         implements Serializable
 {
@@ -92,7 +93,7 @@ public class Customer
 
     public static final String FIND_BY_LOGIN = "Customer.findByLogin";
 
-    public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
+//    public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
 
     public static final String FIND_ALL = "Customer.findAll";
 

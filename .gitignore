@@ -56,4 +56,5 @@ proxy-profiles.json
 
 log/
 config/
+compose/postgres/data
 

@@ -9,7 +9,6 @@ import demo.quarkus.store.model.OrderLine;
 import demo.quarkus.store.model.PurchaseOrder;
 import demo.quarkus.store.util.Loggable;
 import demo.quarkus.store.view.shopping.ShoppingCartItem;
-import demo.quarkus.store.model.*;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

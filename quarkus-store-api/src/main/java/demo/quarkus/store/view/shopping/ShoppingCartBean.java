@@ -5,7 +5,6 @@ import demo.quarkus.store.model.CreditCardType;
 import demo.quarkus.store.model.Customer;
 import demo.quarkus.store.model.Item;
 import demo.quarkus.store.model.PurchaseOrder;
-import demo.quarkus.store.model.*;
 import demo.quarkus.store.service.CatalogService;
 import demo.quarkus.store.service.PurchaseOrderService;
 import demo.quarkus.store.util.Loggable;
