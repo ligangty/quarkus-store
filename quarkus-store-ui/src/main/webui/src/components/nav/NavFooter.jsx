@@ -13,7 +13,6 @@ export default class NavFooter extends React.Component {
               <div className="col-md-8"></div>
               <div className="col-md-2 centered-text">
                   <a href="/q/swagger-ui/#">Swagger Contract</a>
-                  <br />Conversation []
               </div>
           </div>
       </div>

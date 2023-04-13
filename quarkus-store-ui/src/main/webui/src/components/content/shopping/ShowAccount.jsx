@@ -5,7 +5,7 @@ import {jsonGet} from '../../../RestClient.js';
 const getUser = () => {
   const location = useLocation();
   let user = location.state;
-  if (!user){
+  if (!user||!user.login){
     const [userFetch, setUserFetch] = useState("");
     let getUrl = `/api/users/loggedIn`;
     useEffect(()=>{

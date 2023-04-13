@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.quarkus.store.jaxrs.auth;
+package demo.quarkus.store.ui.jaxrs.auth;
 
 import io.quarkus.oidc.IdToken;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -31,7 +31,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.Set;
 
 import static javax.ws.rs.HttpMethod.GET;
@@ -92,6 +91,7 @@ public class SecurityInterceptor
         {
             return roles;
         }
-        return Collections.emptySet();
+
+        return idToken.getGroups();
     }
 }

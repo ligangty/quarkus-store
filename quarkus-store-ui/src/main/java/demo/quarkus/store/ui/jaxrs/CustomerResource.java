@@ -35,7 +35,7 @@ public class CustomerResource
 
     @Inject
     @IdToken
-    JsonWebToken token;
+    JsonWebToken idToken;
 
     @GET
     @Path( "loggedIn" )
@@ -58,13 +58,25 @@ public class CustomerResource
             {
                 return Response.status( NOT_FOUND ).build();
             }
-            Set<String> roles = identity.getRoles();
+            Set<String> roles = getRoles();
             logger.debug( "Roles {}", roles );
 
             return Response.ok( loggedInUser ).build();
         }
 
         return Response.status( NOT_FOUND ).build();
+    }
+
+    private Set<String> getRoles()
+    {
+        Set<String> roles = identity.getRoles();
+        if ( roles != null && !roles.isEmpty() )
+        {
+            return roles;
+        }
+
+        //TODO: This still need to confirm if is right
+        return idToken.getGroups();
     }
 
     private Customer convertUser( Map<String, Object> userInfo )

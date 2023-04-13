@@ -27,9 +27,9 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path( "/api/categories" )
 @Loggable
 @Tag( name = "Category" )
+@Path( "/api/categories" )
 public class CategoryResource
 {
 
