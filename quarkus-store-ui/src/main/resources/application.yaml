@@ -11,7 +11,7 @@ quarkus:
     devservices:
       enabled: false
   oidc:
-    enabled: false
+    enabled: true
     auth-server-url: "http://localhost:8180/realms/qstore"
     client-id: "qstore-ui"
     credentials:
