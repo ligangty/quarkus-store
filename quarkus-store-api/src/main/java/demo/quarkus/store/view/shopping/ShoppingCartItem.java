@@ -46,10 +46,6 @@ public class ShoppingCartItem
         this.quantity = quantity;
     }
 
-    // ======================================
-    // =   Methods hash, equals, toString   =
-    // ======================================
-
     @Override
     public boolean equals( Object o )
     {

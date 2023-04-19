@@ -38,10 +38,6 @@ public class OrderLine
         this.item = item;
     }
 
-    // ======================================
-    // = Business methods =
-    // ======================================
-
     public Float getSubTotal()
     {
         return item.getUnitCost() * quantity;

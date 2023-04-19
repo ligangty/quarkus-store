@@ -111,9 +111,6 @@ public class Customer
         this.dateOfBirth = new Date();
     }
 
-    // ======================================
-    // = Lifecycle Methods =
-    // ======================================
 
     /**
      * This method calculates the age of the customer
@@ -141,9 +138,6 @@ public class Customer
         age = now.get( Calendar.YEAR ) - birth.get( Calendar.YEAR ) + adjust;
     }
 
-    // ======================================
-    // = Business methods =
-    // ======================================
 
     /**
      * Digest password with <code>SHA-256</code> then encode it with Base64.

@@ -80,24 +80,6 @@ public class CountryBean
         return "create?faces-redirect=true";
     }
 
-    public void retrieve()
-    {
-
-        if ( this.conversation.isTransient() )
-        {
-            this.conversation.begin();
-            this.conversation.setTimeout( 1800000L );
-        }
-
-        if ( this.id == null )
-        {
-            this.country = this.example;
-        }
-        else
-        {
-            this.country = findById( getId() );
-        }
-    }
 
     public Country findById( Long id )
     {
@@ -132,23 +114,6 @@ public class CountryBean
         }
     }
 
-    public String delete()
-    {
-        this.conversation.end();
-
-        try
-        {
-            Country deletableEntity = findById( getId() );
-
-            this.entityManager.remove( deletableEntity );
-            this.entityManager.flush();
-            return "search?faces-redirect=true";
-        }
-        catch ( Exception e )
-        {
-            return null;
-        }
-    }
 
     /*
      * Support searching Country entities with pagination

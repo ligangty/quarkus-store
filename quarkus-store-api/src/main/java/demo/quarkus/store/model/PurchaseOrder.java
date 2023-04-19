@@ -97,10 +97,6 @@ public class PurchaseOrder
         this.deliveryAddress = deliveryAddress;
     }
 
-    // ======================================
-    // = Lifecycle Methods =
-    // ======================================
-
     @PrePersist
     private void setDefaultData()
     {

@@ -13,9 +13,6 @@ public abstract class AbstractBean
 
     transient Logger logger;
 
-    // ======================================
-    // =          Protected Methods         =
-    // ======================================
 
     //    private String getMessage( FacesContext facesContext, String msgKey, Object... args )
     //    {
