@@ -28,6 +28,7 @@ const getUser = () => {
 
 export default function ShowAccount() {
   const user = getUser();
+  const address = user.homeAddress;
   return (
   <React.Fragment>
     <h2>Accounts</h2>
@@ -55,45 +56,47 @@ export default function ShowAccount() {
           <td>Email:</td>
           <td><input type="text" value={user.email} className="form-control" disabled="disabled" /></td>
           </tr>
+          <tr>
+          <td>Telephone:</td>
+          <td><input type="text" value={user.telephone} className="form-control" disabled="disabled" /></td>
+          </tr>
+          <tr>
+          <td>Birthday:</td>
+          <td><input type="text" value={user.dateOfBirth} className="form-control" disabled="disabled" /></td>
+          </tr>
+          <tr>
+          <td>Age:</td>
+          <td><input type="text" value={user.age} className="form-control" disabled="disabled" /></td>
+          </tr>
         </tbody>
       </table>
     </div>
-    {
-    // <div className="panel panel-default">
-    //   <div className="panel-heading">
-    //       <h3 className="panel-title">Address</h3>
-    //   </div>
-    //   <div className="panel-body" />
-    //   <table>
-    //     <tbody>
-    //       <tr>
-    //       <td>Street1:</td>
-    //       <td><input type="text" name="j_idt71:j_idt91" value="543 Sun Set Boulevard" className="form-control" size="36" disabled="disabled" /></td>
-    //       </tr>
-    //       <tr>
-    //       <td>Street2:</td>
-    //       <td><input type="text" name="j_idt71:j_idt93" className="form-control" disabled="disabled" /></td>
-    //       </tr>
-    //       <tr>
-    //       <td>City:</td>
-    //       <td><input type="text" name="j_idt71:j_idt95" value="Black Star" className="form-control" disabled="disabled" /></td>
-    //       </tr>
-    //       <tr>
-    //       <td>State:</td>
-    //       <td><input type="text" name="j_idt71:j_idt97" className="form-control" disabled="disabled" /></td>
-    //       </tr>
-    //       <tr>
-    //       <td>Zipcode:</td>
-    //       <td><input type="text" name="j_idt71:j_idt99" value="9999" className="form-control" disabled="disabled" /></td>
-    //       </tr>
-    //       <tr>
-    //       <td>Country:</td>
-    //       <td><input type="text" name="j_idt71:j_idt101" value="Zimbabwe" className="form-control" disabled="disabled" /></td>
-    //       </tr>
-    //     </tbody>
-    //   </table>
-    // </div>
-    }
+    <div className="panel panel-default">
+      <div className="panel-heading">
+          <h3 className="panel-title">Address</h3>
+      </div>
+      <div className="panel-body" />
+      <table>
+        <tbody>
+          <tr>
+          <td>Street1:</td>
+          <td><input type="text" value={address.street1} className="form-control" size="36" disabled="disabled" /></td>
+          </tr>
+          <tr>
+          <td>City:</td>
+          <td><input type="text" value={address.city} className="form-control" disabled="disabled" /></td>
+          </tr>
+          <tr>
+          <td>Zipcode:</td>
+          <td><input type="text" value={address.zipcode} className="form-control" disabled="disabled" /></td>
+          </tr>
+          <tr>
+          <td>Country:</td>
+          <td><input type="text" value={address.country.name} className="form-control" disabled="disabled" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </React.Fragment>
   );
 }

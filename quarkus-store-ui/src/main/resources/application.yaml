@@ -22,6 +22,9 @@ quarkus:
       verification: none
     token:
       issuer: any
+    # "web-app" will use idtoken to get roles. So we set to accesstoken as its source here
+    roles:
+      source: "accesstoken"
     logout:
       path: "/logout"
       post-logout-path: "/"

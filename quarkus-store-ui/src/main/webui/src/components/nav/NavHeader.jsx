@@ -85,7 +85,7 @@ export default function NavHeader() {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <Link key="to-home" className="navbar-brand" to={`${APP_ROOT}`}>Yaps Petstore EE 7</Link>
+          <Link key="to-home" className="navbar-brand" to={`${APP_ROOT}`}>Quarkus Petstore EE 7</Link>
         </div>
 
         <div className="collapse navbar-collapse">

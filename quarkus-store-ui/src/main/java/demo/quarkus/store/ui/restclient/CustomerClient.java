@@ -18,28 +18,20 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/customers" )
-@RegisterRestClient(configKey="store-service-api")
+@RegisterRestClient( configKey = "store-service-api" )
 public interface CustomerClient
 {
     @POST
     @Consumes( APPLICATION_JSON )
     Response create( Customer entity );
 
-    @DELETE
-    @Path( "/{id}" )
-    Response deleteById( @PathParam( "id" ) Long id );
-
     @GET
-    @Path( "/{id}" )
+    @Path( "/{login}" )
     @Produces( APPLICATION_JSON )
-    Response findById( @PathParam( "id" ) Long id );
-
-    @GET
-    @Produces( APPLICATION_JSON )
-    List<Customer> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult );
+    Customer findByLogin( @PathParam( "login" ) String login );
 
     @PUT
-    @Path( "/{id:[0-9][0-9]*}" )
+    @Path( "/{login}" )
     @Consumes( APPLICATION_JSON )
-    Response update( @PathParam( "id" ) final Long id, Customer entity );
+    Response update( @PathParam( "login" ) final String login, Customer entity );
 }

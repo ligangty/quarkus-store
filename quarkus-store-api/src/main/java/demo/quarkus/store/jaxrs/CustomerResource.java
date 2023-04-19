@@ -38,15 +38,15 @@ public class CustomerResource
     EntityManager em;
 
     @GET
-    @Path( "/{id:[0-9][0-9]*}" )
+    @Path( "/{login}" )
     @Produces( APPLICATION_JSON )
     @Operation( description = "Finds a customer by it identifier" )
-    public Response findById( @PathParam( "id" ) Long id )
+    public Response findByLogin( @PathParam( "login" ) String login )
     {
         TypedQuery<Customer> findByIdQuery = em.createQuery(
-                "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.homeAddress.country WHERE c.id = :entityId ORDER BY c.id",
+                "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.homeAddress.country WHERE c.login = :entityLogin ORDER BY c.id",
                 Customer.class );
-        findByIdQuery.setParameter( "entityId", id );
+        findByIdQuery.setParameter( "entityLogin", login );
         Customer entity;
         try
         {
@@ -64,11 +64,11 @@ public class CustomerResource
     }
 
     @PUT
-    @Path( "/{id:[0-9][0-9]*}" )
+    @Path( "/{login}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a customer" )
     @Transactional
-    public Response update( @PathParam( "id" ) final Long id, Customer entity )
+    public Response update( @PathParam( "login" ) final String login, Customer entity )
     {
         try
         {

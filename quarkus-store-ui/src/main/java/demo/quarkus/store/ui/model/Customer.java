@@ -17,11 +17,9 @@ public class Customer
     private int version;
 
     @NotNull
-    @Size( min = 2, max = 50 )
     private String firstName;
 
     @NotNull
-    @Size( min = 2, max = 50 )
     private String lastName;
 
     private String telephone;
@@ -30,7 +28,6 @@ public class Customer
 
     private String login;
 
-    @Size( min = 1, max = 256 )
     private String uuid;
 
     private UserRole role;

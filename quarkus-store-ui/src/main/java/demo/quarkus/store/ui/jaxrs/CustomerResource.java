@@ -3,10 +3,12 @@ package demo.quarkus.store.ui.jaxrs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import demo.quarkus.store.ui.model.Customer;
+import demo.quarkus.store.ui.restclient.CustomerClient;
 import io.quarkus.oidc.IdToken;
 import io.quarkus.oidc.UserInfo;
 import io.quarkus.security.identity.SecurityIdentity;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +38,10 @@ public class CustomerResource
     @Inject
     @IdToken
     JsonWebToken idToken;
+
+    @Inject
+    @RestClient
+    CustomerClient client;
 
     @GET
     @Path( "loggedIn" )
@@ -85,7 +91,11 @@ public class CustomerResource
         String userName = (String) userInfo.get( "preferred_username" );
         if ( isNotBlank( userName ) )
         {
-            user.setLogin( userName );
+            Customer detailedUser = client.findByLogin( userName );
+            if ( detailedUser != null )
+            {
+                user = detailedUser;
+            }
         }
         final String firstName = (String) userInfo.get( "given_name" );
         if ( isNotBlank( firstName ) )
@@ -102,6 +112,7 @@ public class CustomerResource
         {
             user.setEmail( email );
         }
+
         return user;
     }
 }
