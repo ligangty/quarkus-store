@@ -1,6 +1,7 @@
 package demo.quarkus.store.jaxrs;
 
 import demo.quarkus.store.model.Product;
+import demo.quarkus.store.service.ProductService;
 import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -34,15 +35,14 @@ public class ProductResource
 {
 
     @Inject
-    EntityManager em;
+    ProductService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates new product" )
-    @Transactional
     public Response create( Product entity )
     {
-        em.persist( entity );
+        service.persist( entity );
         return Response.created(
                                UriBuilder.fromResource( ProductResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
@@ -51,15 +51,14 @@ public class ProductResource
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
     @Operation( description = "Deletes a product by id" )
-    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
-        Product entity = em.find( Product.class, id );
+        Product entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
         }
-        em.remove( entity );
+        service.remove( entity );
         return Response.noContent().build();
     }
 
@@ -69,19 +68,7 @@ public class ProductResource
     @Operation( description = "Finds a product by id" )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        TypedQuery<Product> findByIdQuery = em.createQuery(
-                "SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.category WHERE p.id = :entityId ORDER BY p.id",
-                Product.class );
-        findByIdQuery.setParameter( "entityId", id );
-        Product entity;
-        try
-        {
-            entity = findByIdQuery.getSingleResult();
-        }
-        catch ( NoResultException nre )
-        {
-            entity = null;
-        }
+        Product entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -94,30 +81,18 @@ public class ProductResource
     @Operation( description = "Lists all products" )
     public List<Product> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
     {
-        TypedQuery<Product> findAllQuery =
-                em.createQuery( "SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.category ORDER BY p.id",
-                                Product.class );
-        if ( startPosition != null )
-        {
-            findAllQuery.setFirstResult( startPosition );
-        }
-        if ( maxResult != null )
-        {
-            findAllQuery.setMaxResults( maxResult );
-        }
-        return findAllQuery.getResultList();
+        return service.listAll( startPosition, maxResult );
     }
 
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a product" )
-    @Transactional
     public Response update( @PathParam( "id" ) final Long id, final Product entity )
     {
         try
         {
-            em.merge( entity );
+            service.merge( entity );
         }
         catch ( OptimisticLockException e )
         {
@@ -132,8 +107,6 @@ public class ProductResource
     @Produces( APPLICATION_JSON )
     public Response findProductsByCategory( @QueryParam( "category" ) final String categoryName )
     {
-        TypedQuery<Product> typedQuery = em.createNamedQuery( Product.FIND_BY_CATEGORY_NAME, Product.class );
-        typedQuery.setParameter( "pname", categoryName );
-        return Response.ok( typedQuery.getResultList() ).build();
+        return Response.ok( service.findProductsByCategory( categoryName ) ).build();
     }
 }

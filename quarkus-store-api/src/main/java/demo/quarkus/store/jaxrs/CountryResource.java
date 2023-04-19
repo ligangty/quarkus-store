@@ -1,16 +1,13 @@
 package demo.quarkus.store.jaxrs;
 
 import demo.quarkus.store.model.Country;
+import demo.quarkus.store.service.CountryService;
 import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,15 +31,14 @@ public class CountryResource
 {
 
     @Inject
-    EntityManager em;
+    CountryService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates a country" )
-    @Transactional
     public Response create( Country entity )
     {
-        em.persist( entity );
+        service.persist( entity );
         return Response.created(
                                UriBuilder.fromResource( CountryResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
@@ -51,15 +47,15 @@ public class CountryResource
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
     @Operation( description = "Deletes a country given an id" )
-    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
-        Country entity = em.find( Country.class, id );
+
+        Country entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
         }
-        em.remove( entity );
+        service.remove( entity );
         return Response.noContent().build();
     }
 
@@ -69,19 +65,7 @@ public class CountryResource
     @Operation( description = "Retrieves a country by its id" )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        TypedQuery<Country> findByIdQuery =
-                em.createQuery( "SELECT DISTINCT c FROM Country c WHERE c.id = :entityId ORDER BY c.id",
-                                Country.class );
-        findByIdQuery.setParameter( "entityId", id );
-        Country entity;
-        try
-        {
-            entity = findByIdQuery.getSingleResult();
-        }
-        catch ( NoResultException nre )
-        {
-            entity = null;
-        }
+        Country entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -94,29 +78,18 @@ public class CountryResource
     @Operation( description = "Lists all the countries" )
     public List<Country> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
     {
-        TypedQuery<Country> findAllQuery =
-                em.createQuery( "SELECT DISTINCT c FROM Country c ORDER BY c.id", Country.class );
-        if ( startPosition != null )
-        {
-            findAllQuery.setFirstResult( startPosition );
-        }
-        if ( maxResult != null )
-        {
-            findAllQuery.setMaxResults( maxResult );
-        }
-        return findAllQuery.getResultList();
+        return service.listAll(startPosition, maxResult);
     }
 
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a country" )
-    @Transactional
     public Response update( @PathParam( "id" ) final Long id, Country entity )
     {
         try
         {
-            em.merge( entity );
+            service.merge( entity );
         }
         catch ( OptimisticLockException e )
         {

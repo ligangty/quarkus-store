@@ -13,7 +13,7 @@ quarkus:
   oidc:
     enabled: true
     auth-server-url: "http://localhost:8180/realms/qstore"
-    client-id: "qstore-ui"
+    client-id: "qstore-client"
     credentials:
       secret: "quarkus"
     authentication:
@@ -25,6 +25,7 @@ quarkus:
     # "web-app" will use idtoken to get roles. So we set to accesstoken as its source here
     roles:
       source: "accesstoken"
+      role-claim-path: "resource_access/qstore-client/roles"
     logout:
       path: "/logout"
       post-logout-path: "/"
@@ -37,6 +38,8 @@ quarkus:
     min-level: TRACE
     category:
       "org.jboss":
+        level: WARN
+      "org.apache.http":
         level: WARN
       "io.quarkus":
         level: WARN

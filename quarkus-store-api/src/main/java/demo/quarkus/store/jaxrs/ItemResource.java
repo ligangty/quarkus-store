@@ -6,10 +6,7 @@ import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,17 +31,13 @@ public class ItemResource
 {
 
     @Inject
-    EntityManager em;
-
-    @Inject
     ItemService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
-    @Transactional
     public Response create( Item entity )
     {
-        em.persist( entity );
+        service.persist( entity );
         return Response.created(
                                UriBuilder.fromResource( ItemResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
@@ -52,15 +45,14 @@ public class ItemResource
 
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
-    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
-        Item entity = em.find( Item.class, id );
+        Item entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
         }
-        em.remove( entity );
+        service.remove( entity );
         return Response.noContent().build();
     }
 
@@ -69,19 +61,7 @@ public class ItemResource
     @Produces( APPLICATION_JSON )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        TypedQuery<Item> findByIdQuery = em.createQuery(
-                "SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.product WHERE i.id = :entityId ORDER BY i.id",
-                Item.class );
-        findByIdQuery.setParameter( "entityId", id );
-        Item entity;
-        try
-        {
-            entity = findByIdQuery.getSingleResult();
-        }
-        catch ( NoResultException nre )
-        {
-            entity = null;
-        }
+        Item entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -93,17 +73,7 @@ public class ItemResource
     @Produces( APPLICATION_JSON )
     public List<Item> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
     {
-        TypedQuery<Item> findAllQuery =
-                em.createQuery( "SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.product ORDER BY i.id", Item.class );
-        if ( startPosition != null )
-        {
-            findAllQuery.setFirstResult( startPosition );
-        }
-        if ( maxResult != null )
-        {
-            findAllQuery.setMaxResults( maxResult );
-        }
-        return findAllQuery.getResultList();
+        return service.listAll( startPosition, maxResult );
     }
 
     @PUT
@@ -114,7 +84,7 @@ public class ItemResource
     {
         try
         {
-            em.merge( entity );
+            service.merge( entity );
         }
         catch ( OptimisticLockException e )
         {

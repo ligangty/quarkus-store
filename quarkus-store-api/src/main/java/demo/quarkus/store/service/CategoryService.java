@@ -3,6 +3,7 @@ package demo.quarkus.store.service;
 import demo.quarkus.store.model.Category;
 import demo.quarkus.store.util.Loggable;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Loggable
+@ApplicationScoped
 public class CategoryService
         extends AbstractService<Category>
         implements Serializable

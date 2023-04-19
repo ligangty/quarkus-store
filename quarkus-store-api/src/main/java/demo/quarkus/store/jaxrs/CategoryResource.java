@@ -1,15 +1,13 @@
 package demo.quarkus.store.jaxrs;
 
 import demo.quarkus.store.model.Category;
+import demo.quarkus.store.service.CategoryService;
 import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,15 +32,14 @@ public class CategoryResource
 {
 
     @Inject
-    EntityManager em;
+    CategoryService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Creates a category" )
-    @Transactional
     public Response create( Category entity )
     {
-        em.persist( entity );
+        service.persist( entity );
         return Response.created(
                                UriBuilder.fromResource( CategoryResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
@@ -54,12 +51,13 @@ public class CategoryResource
     @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
-        Category entity = em.find( Category.class, id );
+
+        Category entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
         }
-        em.remove( entity );
+        service.remove( entity );
         return Response.noContent().build();
     }
 
@@ -69,19 +67,7 @@ public class CategoryResource
     @Operation( description = "Finds a category given an identifier" )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        TypedQuery<Category> findByIdQuery =
-                em.createQuery( "SELECT DISTINCT c FROM Category c WHERE c.id = :entityId ORDER BY c.id",
-                                Category.class );
-        findByIdQuery.setParameter( "entityId", id );
-        Category entity;
-        try
-        {
-            entity = findByIdQuery.getSingleResult();
-        }
-        catch ( NoResultException nre )
-        {
-            entity = null;
-        }
+        Category entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -95,29 +81,18 @@ public class CategoryResource
     public List<Category> listAll( @QueryParam( "start" ) Integer startPosition,
                                    @QueryParam( "max" ) Integer maxResult )
     {
-        TypedQuery<Category> findAllQuery =
-                em.createQuery( "SELECT DISTINCT c FROM Category c ORDER BY c.id", Category.class );
-        if ( startPosition != null )
-        {
-            findAllQuery.setFirstResult( startPosition );
-        }
-        if ( maxResult != null )
-        {
-            findAllQuery.setMaxResults( maxResult );
-        }
-        return findAllQuery.getResultList();
+        return service.listAll(startPosition, maxResult);
     }
 
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a category" )
-    @Transactional
     public Response update( @PathParam( "id" ) final Long id, Category entity )
     {
         try
         {
-            em.merge( entity );
+            service.merge( entity );
         }
         catch ( OptimisticLockException e )
         {

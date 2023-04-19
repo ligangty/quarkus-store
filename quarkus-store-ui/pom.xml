@@ -8,24 +8,25 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-store-ui</artifactId>
+  <name>Quarkus PetStore UI</name>
 
   <dependencies>
-    <!-- quarkus deps start -->
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+      <groupId>demo.quarkus</groupId>
+      <artifactId>quarkus-store-common</artifactId>
     </dependency>
+    <!-- quarkus deps start -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive</artifactId>
+      <artifactId>quarkus-resteasy</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-reactive-routes</artifactId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

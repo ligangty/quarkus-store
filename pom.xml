@@ -10,6 +10,7 @@
   <modules>
     <module>quarkus-store-api</module>
     <module>quarkus-store-ui</module>
+    <module>quarkus-store-common</module>
   </modules>
   
   <properties>
@@ -49,6 +50,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.12.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>demo.quarkus</groupId>
+        <artifactId>quarkus-store-common</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

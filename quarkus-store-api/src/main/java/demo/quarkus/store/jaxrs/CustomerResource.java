@@ -1,41 +1,32 @@
 package demo.quarkus.store.jaxrs;
 
 import demo.quarkus.store.model.Customer;
+import demo.quarkus.store.service.CustomerService;
 import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/customers" )
 @Loggable
 @Tag( name = "Customer" )
-@Deprecated
 public class CustomerResource
 {
 
     @Inject
-    EntityManager em;
+    CustomerService service;
 
     @GET
     @Path( "/{login}" )
@@ -43,19 +34,7 @@ public class CustomerResource
     @Operation( description = "Finds a customer by it identifier" )
     public Response findByLogin( @PathParam( "login" ) String login )
     {
-        TypedQuery<Customer> findByIdQuery = em.createQuery(
-                "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.homeAddress.country WHERE c.login = :entityLogin ORDER BY c.id",
-                Customer.class );
-        findByIdQuery.setParameter( "entityLogin", login );
-        Customer entity;
-        try
-        {
-            entity = findByIdQuery.getSingleResult();
-        }
-        catch ( NoResultException nre )
-        {
-            entity = null;
-        }
+        Customer entity = service.findCustomer( login );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -67,12 +46,11 @@ public class CustomerResource
     @Path( "/{login}" )
     @Consumes( APPLICATION_JSON )
     @Operation( description = "Updates a customer" )
-    @Transactional
     public Response update( @PathParam( "login" ) final String login, Customer entity )
     {
         try
         {
-            em.merge( entity );
+            service.merge( entity );
         }
         catch ( OptimisticLockException e )
         {

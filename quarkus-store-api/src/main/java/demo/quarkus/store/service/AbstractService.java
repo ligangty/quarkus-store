@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 import demo.quarkus.store.util.Loggable;
@@ -16,7 +17,6 @@ public abstract class AbstractService<T>
 {
 
     @Inject
-
     protected EntityManager entityManager;
 
     private Class<T> entityClass;
@@ -30,6 +30,7 @@ public abstract class AbstractService<T>
         this.entityClass = entityClass;
     }
 
+    @Transactional
     public T persist( T entity )
     {
         entityManager.persist( entity );
@@ -41,11 +42,13 @@ public abstract class AbstractService<T>
         return entityManager.find( entityClass, id );
     }
 
+    @Transactional
     public void remove( T entity )
     {
         entityManager.remove( entityManager.merge( entity ) );
     }
 
+    @Transactional
     public T merge( T entity )
     {
         return entityManager.merge( entity );

@@ -285,7 +285,7 @@ INSERT INTO country(id, iso_code, name, printable_name, iso3, numcode, version) 
 INSERT INTO country(id, iso_code, name, printable_name, iso3, numcode, version) VALUES (1238, 'ZW','ZIMBABWE','Zimbabwe','ZWE','716', 1);
 
 
-INSERT INTO customer (id, version, login, telephone, date_of_birth, street1, city, zip_code, country_id) VALUES (1000, 1, 'admin', '+1 123 3564 4567', '1935-07-01', 'The Admin Alley', 'CA', '87653', 1230);
+INSERT INTO customer (id, version, login, telephone, date_of_birth, street1, city, zip_code, country_id) VALUES (1000, 1, 'q_admin', '+1 123 3564 4567', '1935-07-01', 'The Admin Alley', 'CA', '87653', 1230);
 INSERT INTO customer (id, version, login, telephone, date_of_birth, street1, city, zip_code, country_id) VALUES (1001, 1, 'user', '+1 123 3564 4567', '1934-09-02', 'The User Boulevard', 'CA', '87653', 1230);
 INSERT INTO customer (id, version, login, telephone, date_of_birth, street1, city, zip_code, country_id) VALUES (1002, 1, 'anakin', '+1 123 3564 4567', '1935-07-01', '3 Wars Street', 'Black Star', '9999', 1230);
 INSERT INTO customer (id, version, login, telephone, date_of_birth, street1, city, zip_code, country_id) VALUES (1003, 1, 'obiwan', '+1 765 897 321', '1914-04-02', '14 Star Boulevard', 'Black Star', '9999', 1115);

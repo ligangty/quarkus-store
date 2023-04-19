@@ -22,11 +22,14 @@ quarkus:
   oidc:
     enabled: true
     auth-server-url: "http://localhost:8180/realms/qstore"
-    "client-id": "qstore-api"
+    "client-id": "qstore-client"
     credentials:
       secret: "qstore"
     tls:
       verification: none
+    roles:
+      source: "accesstoken"
+      role-claim-path: "resource_access/qstore-client/roles"
     token:
       issuer: any
     "application-type": "service"
@@ -38,10 +41,14 @@ quarkus:
         level: WARN
       "org.hibernate":
         level: INFO
+      "org.apache.http":
+        level: WARN
       "io.quarkus":
         level: WARN
-      "io.quarkiverse":
-        level: DEBUG
+      "org.infinispan.quarkus":
+        level: WARN
+      "org.postgresql":
+        level: WARN
       "io.smallrye":
         level: WARN
       "org.eclipse":
