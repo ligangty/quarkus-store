@@ -37,33 +37,6 @@ public class CustomerResource
     @Inject
     EntityManager em;
 
-    @POST
-    @Consumes( APPLICATION_JSON )
-    @Operation( description = "Creates a customer" )
-    @Transactional
-    public Response create( Customer entity )
-    {
-        em.persist( entity );
-        return Response.created(
-                               UriBuilder.fromResource( CustomerResource.class ).path( String.valueOf( entity.getId() ) ).build() )
-                       .build();
-    }
-
-    @DELETE
-    @Path( "/{id:[0-9][0-9]*}" )
-    @Operation( description = "Deletes a customer by id" )
-    @Transactional
-    public Response deleteById( @PathParam( "id" ) Long id )
-    {
-        Customer entity = em.find( Customer.class, id );
-        if ( entity == null )
-        {
-            return Response.status( Status.NOT_FOUND ).build();
-        }
-        em.remove( entity );
-        return Response.noContent().build();
-    }
-
     @GET
     @Path( "/{id:[0-9][0-9]*}" )
     @Produces( APPLICATION_JSON )
@@ -88,26 +61,6 @@ public class CustomerResource
             return Response.status( Status.NOT_FOUND ).build();
         }
         return Response.ok( entity ).build();
-    }
-
-    @GET
-    @Produces( APPLICATION_JSON )
-    @Operation( description = "Lists all the customers" )
-    public List<Customer> listAll( @QueryParam( "start" ) Integer startPosition,
-                                   @QueryParam( "max" ) Integer maxResult )
-    {
-        TypedQuery<Customer> findAllQuery =
-                em.createQuery( "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.homeAddress.country ORDER BY c.id",
-                                Customer.class );
-        if ( startPosition != null )
-        {
-            findAllQuery.setFirstResult( startPosition );
-        }
-        if ( maxResult != null )
-        {
-            findAllQuery.setMaxResults( maxResult );
-        }
-        return findAllQuery.getResultList();
     }
 
     @PUT

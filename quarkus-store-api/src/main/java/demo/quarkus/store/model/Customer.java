@@ -33,12 +33,10 @@ import java.util.Objects;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Entity
-@NamedQueries({
-        @NamedQuery( name = Customer.FIND_BY_LOGIN, query = "SELECT c FROM Customer c WHERE c.login = :login"),
-        @NamedQuery( name = Customer.FIND_BY_EMAIL, query = "SELECT c FROM Customer c WHERE c.email = :email"),
-        @NamedQuery( name = Customer.FIND_BY_UUID, query = "SELECT c FROM Customer c WHERE c.uuid = :uuid"),
-        @NamedQuery( name = Customer.FIND_ALL, query = "SELECT c FROM Customer c")
-})
+@NamedQueries(
+        { @NamedQuery( name = Customer.FIND_BY_LOGIN, query = "SELECT c FROM Customer c WHERE c.login = :login" ),
+                @NamedQuery( name = Customer.FIND_BY_UUID, query = "SELECT c FROM Customer c WHERE c.uuid = :uuid" ),
+                @NamedQuery( name = Customer.FIND_ALL, query = "SELECT c FROM Customer c" ) } )
 public class Customer
         implements Serializable
 {
@@ -52,22 +50,8 @@ public class Customer
     @Column( name = "version" )
     private int version;
 
-    @Column( length = 50, name = "first_name", nullable = false )
-    @NotNull
-    @Size( min = 2, max = 50 )
-    private String firstName;
-
-    @Column( length = 50, name = "last_name", nullable = false )
-    @NotNull
-    @Size( min = 2, max = 50 )
-    private String lastName;
-
     @Column
     private String telephone;
-
-    @Column
-    @Email
-    private String email;
 
     @Column( length = 10, nullable = false )
     @Login
@@ -84,6 +68,18 @@ public class Customer
     @Past
     private Date dateOfBirth;
 
+    @NotNull
+    @Transient
+    private String firstName;
+
+    @NotNull
+    @Transient
+    private String lastName;
+
+    @Email
+    @Transient
+    private String email;
+
     @Transient
     private Integer age;
 
@@ -93,7 +89,7 @@ public class Customer
 
     public static final String FIND_BY_LOGIN = "Customer.findByLogin";
 
-//    public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
+    //    public static final String FIND_BY_LOGIN_PASSWORD = "Customer.findByLoginAndPassword";
 
     public static final String FIND_ALL = "Customer.findAll";
 
