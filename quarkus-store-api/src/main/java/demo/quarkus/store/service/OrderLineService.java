@@ -30,7 +30,7 @@ public class OrderLineService
         List<Predicate> predicatesList = new ArrayList<Predicate>();
 
         Integer quantity = example.getQuantity();
-        if ( quantity != null && quantity.intValue() != 0 )
+        if ( quantity != null && quantity != 0 )
         {
             predicatesList.add( builder.equal( root.get( "quantity" ), quantity ) );
         }
@@ -40,6 +40,6 @@ public class OrderLineService
             predicatesList.add( builder.equal( root.get( "item" ), item ) );
         }
 
-        return predicatesList.toArray( new Predicate[predicatesList.size()] );
+        return predicatesList.toArray( new Predicate[0] );
     }
 }

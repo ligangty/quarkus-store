@@ -27,19 +27,19 @@ public class CountryService
     protected Predicate[] getSearchPredicates( Root<Country> root, Country example )
     {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<Predicate>();
+        List<Predicate> predicatesList = new ArrayList<>();
 
         String isoCode = example.getIsoCode();
         if ( isoCode != null && !"".equals( isoCode ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "isoCode" ) ), '%' + isoCode.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "isoCode" ) ), '%' + isoCode.toLowerCase() + '%' ) );
         }
         String name = example.getName();
         if ( name != null && !"".equals( name ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "name" ) ), '%' + name.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "name" ) ), '%' + name.toLowerCase() + '%' ) );
         }
         String printableName = example.getPrintableName();
         if ( printableName != null && !"".equals( printableName ) )

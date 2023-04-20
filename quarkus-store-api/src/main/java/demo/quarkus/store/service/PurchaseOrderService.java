@@ -79,39 +79,39 @@ public class PurchaseOrderService
     protected Predicate[] getSearchPredicates( Root<PurchaseOrder> root, PurchaseOrder example )
     {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<Predicate>();
+        List<Predicate> predicatesList = new ArrayList<>();
 
         String street1 = example.getCustomer().getHomeAddress().getStreet1();
         if ( street1 != null && !"".equals( street1 ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "street1" ) ), '%' + street1.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "street1" ) ), '%' + street1.toLowerCase() + '%' ) );
         }
         String street2 = example.getCustomer().getHomeAddress().getStreet2();
         if ( street2 != null && !"".equals( street2 ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "street2" ) ), '%' + street2.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "street2" ) ), '%' + street2.toLowerCase() + '%' ) );
         }
         String city = example.getCustomer().getHomeAddress().getCity();
         if ( city != null && !"".equals( city ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "city" ) ), '%' + city.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "city" ) ), '%' + city.toLowerCase() + '%' ) );
         }
         String state = example.getCustomer().getHomeAddress().getState();
         if ( state != null && !"".equals( state ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "state" ) ), '%' + state.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "state" ) ), '%' + state.toLowerCase() + '%' ) );
         }
         String zipcode = example.getCustomer().getHomeAddress().getZipcode();
         if ( zipcode != null && !"".equals( zipcode ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "zipcode" ) ), '%' + zipcode.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "zipcode" ) ), '%' + zipcode.toLowerCase() + '%' ) );
         }
 
-        return predicatesList.toArray( new Predicate[predicatesList.size()] );
+        return predicatesList.toArray( new Predicate[0] );
     }
 }

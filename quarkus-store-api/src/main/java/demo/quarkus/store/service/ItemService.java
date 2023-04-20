@@ -33,24 +33,24 @@ public class ItemService
     protected Predicate[] getSearchPredicates( Root<Item> root, Item example )
     {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<Predicate>();
+        List<Predicate> predicatesList = new ArrayList<>();
 
         String name = example.getName();
         if ( name != null && !"".equals( name ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "name" ) ), '%' + name.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "name" ) ), '%' + name.toLowerCase() + '%' ) );
         }
         String description = example.getDescription();
         if ( description != null && !"".equals( description ) )
         {
-            predicatesList.add( builder.like( builder.lower( root.<String>get( "description" ) ),
+            predicatesList.add( builder.like( builder.lower( root.get( "description" ) ),
                                               '%' + description.toLowerCase() + '%' ) );
         }
         String imagePath = example.getImagePath();
         if ( imagePath != null && !"".equals( imagePath ) )
         {
-            predicatesList.add( builder.like( builder.lower( root.<String>get( "imagePath" ) ),
+            predicatesList.add( builder.like( builder.lower( root.get( "imagePath" ) ),
                                               '%' + imagePath.toLowerCase() + '%' ) );
         }
         Product product = example.getProduct();

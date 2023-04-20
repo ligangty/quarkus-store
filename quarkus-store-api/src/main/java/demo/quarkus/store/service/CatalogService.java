@@ -68,8 +68,7 @@ public class CatalogService
 
     public Product findProduct( @NotNull Long productId )
     {
-        Product product = em.find( Product.class, productId );
-        return product;
+        return em.find( Product.class, productId );
     }
 
     public List<Product> findAllProducts()

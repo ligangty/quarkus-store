@@ -5,7 +5,6 @@ import demo.quarkus.store.model.Product;
 import demo.quarkus.store.util.Loggable;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Singleton;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

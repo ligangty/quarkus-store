@@ -67,16 +67,6 @@ public class CustomerService
         }
     }
 
-//    public Customer findCustomer( @NotNull String login, @NotNull String password )
-//    {
-//        TypedQuery<Customer> typedQuery =
-//                entityManager.createNamedQuery( Customer.FIND_BY_LOGIN_PASSWORD, Customer.class );
-//        typedQuery.setParameter( "login", login );
-//        typedQuery.setParameter( "password", password );
-//
-//        return typedQuery.getSingleResult();
-//    }
-
     public List<Customer> findAllCustomers()
     {
         TypedQuery<Customer> typedQuery = entityManager.createNamedQuery( Customer.FIND_ALL, Customer.class );
@@ -103,39 +93,39 @@ public class CustomerService
     protected Predicate[] getSearchPredicates( Root<Customer> root, Customer example )
     {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-        List<Predicate> predicatesList = new ArrayList<Predicate>();
+        List<Predicate> predicatesList = new ArrayList<>();
 
         String firstName = example.getFirstName();
         if ( firstName != null && !"".equals( firstName ) )
         {
-            predicatesList.add( builder.like( builder.lower( root.<String>get( "firstName" ) ),
+            predicatesList.add( builder.like( builder.lower( root.get( "firstName" ) ),
                                               '%' + firstName.toLowerCase() + '%' ) );
         }
         String lastName = example.getLastName();
         if ( lastName != null && !"".equals( lastName ) )
         {
-            predicatesList.add( builder.like( builder.lower( root.<String>get( "lastName" ) ),
+            predicatesList.add( builder.like( builder.lower( root.get( "lastName" ) ),
                                               '%' + lastName.toLowerCase() + '%' ) );
         }
         String telephone = example.getTelephone();
         if ( telephone != null && !"".equals( telephone ) )
         {
-            predicatesList.add( builder.like( builder.lower( root.<String>get( "telephone" ) ),
+            predicatesList.add( builder.like( builder.lower( root.get( "telephone" ) ),
                                               '%' + telephone.toLowerCase() + '%' ) );
         }
         String email = example.getEmail();
         if ( email != null && !"".equals( email ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "email" ) ), '%' + email.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "email" ) ), '%' + email.toLowerCase() + '%' ) );
         }
         String login = example.getLogin();
         if ( login != null && !"".equals( login ) )
         {
             predicatesList.add(
-                    builder.like( builder.lower( root.<String>get( "login" ) ), '%' + login.toLowerCase() + '%' ) );
+                    builder.like( builder.lower( root.get( "login" ) ), '%' + login.toLowerCase() + '%' ) );
         }
 
-        return predicatesList.toArray( new Predicate[predicatesList.size()] );
+        return predicatesList.toArray( new Predicate[0] );
     }
 }
