@@ -43,9 +43,13 @@ quarkus:
         level: INFO
       "org.apache.http":
         level: WARN
+      "org.aesh":
+        level: WARN
       "io.quarkus":
         level: WARN
       "org.infinispan.quarkus":
+        level: WARN
+      "io.undertow":
         level: WARN
       "org.postgresql":
         level: WARN

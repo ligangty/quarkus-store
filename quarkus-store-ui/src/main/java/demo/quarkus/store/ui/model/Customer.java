@@ -1,5 +1,7 @@
 package demo.quarkus.store.ui.model;
 
+import demo.quarkus.store.common.auth.UserRole;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -53,7 +55,6 @@ public class Customer
         this.homeAddress = address;
         this.dateOfBirth = new Date();
     }
-
 
     public Long getId()
     {

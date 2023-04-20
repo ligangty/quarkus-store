@@ -1,9 +1,6 @@
 package demo.quarkus.store.common.auth;
 
-import io.quarkus.oidc.IdToken;
-import io.quarkus.security.identity.SecurityIdentity;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
-import java.security.Principal;
-import java.util.Set;
 
 import static javax.ws.rs.HttpMethod.GET;
 
@@ -31,11 +26,7 @@ public class SecurityInterceptor
     UriInfo info;
 
     @Inject
-    SecurityIdentity identity;
-
-    @Inject
-    @IdToken
-    JsonWebToken idToken;
+    UserManager principal;
 
     @Override
     public void filter( ContainerRequestContext requestContext )
@@ -53,30 +44,19 @@ public class SecurityInterceptor
 
     private boolean authenticated( final String method )
     {
-        logger.debug( "Roles: {}", getRoles() );
         if ( GET.equals( method ) )
         {
             logger.debug( "No access limitation for GET method." );
             return true;
         }
-        Principal user = identity.getPrincipal();
-        if ( user != null && StringUtils.isNotBlank( user.getName() ) )
+        String user = principal.getUserAttributes().get( UserManager.ATTR_USER_NAME );
+        if ( StringUtils.isNotBlank( user ) )
         {
-            logger.info( "Logged in user: {}", user.getName() );
+            logger.info( "Logged in user: {}", user );
             return true;
         }
         logger.info( "User not logged in, can not access non-GET methods" );
         return false;
     }
 
-    public Set<String> getRoles()
-    {
-        Set<String> roles = identity.getRoles();
-        if ( roles != null && !roles.isEmpty() )
-        {
-            return roles;
-        }
-
-        return idToken.getGroups();
-    }
 }

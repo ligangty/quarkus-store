@@ -1,5 +1,6 @@
 package demo.quarkus.store.model;
 
+import demo.quarkus.store.common.auth.UserRole;
 import demo.quarkus.store.constraints.Email;
 import demo.quarkus.store.constraints.Login;
 
@@ -61,8 +62,6 @@ public class Customer
     @Size( min = 1, max = 256 )
     private String uuid;
 
-    private UserRole role;
-
     @Column( name = "date_of_birth" )
     @Temporal( TemporalType.DATE )
     @Past
@@ -82,6 +81,9 @@ public class Customer
 
     @Transient
     private Integer age;
+
+    @Transient
+    private UserRole role;
 
     @Embedded
     @Valid
@@ -111,7 +113,6 @@ public class Customer
         this.dateOfBirth = new Date();
     }
 
-
     /**
      * This method calculates the age of the customer
      */
@@ -137,7 +138,6 @@ public class Customer
         }
         age = now.get( Calendar.YEAR ) - birth.get( Calendar.YEAR ) + adjust;
     }
-
 
     /**
      * Digest password with <code>SHA-256</code> then encode it with Base64.

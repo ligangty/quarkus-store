@@ -1,13 +1,10 @@
 package demo.quarkus.store.ui.jaxrs;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import demo.quarkus.store.common.auth.UserManager;
+import demo.quarkus.store.common.auth.UserRole;
 import demo.quarkus.store.ui.model.Customer;
 import demo.quarkus.store.ui.restclient.CustomerClient;
-import io.quarkus.oidc.IdToken;
-import io.quarkus.oidc.UserInfo;
-import io.quarkus.security.identity.SecurityIdentity;
-import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.Map;
-import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -30,14 +26,7 @@ public class CustomerResource
     private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
     @Inject
-    SecurityIdentity identity;
-
-    @Inject
-    ObjectMapper mapper;
-
-    @Inject
-    @IdToken
-    JsonWebToken idToken;
+    UserManager principal;
 
     @Inject
     @RestClient
@@ -48,47 +37,21 @@ public class CustomerResource
     @Produces( APPLICATION_JSON )
     public Response loggedInCustomer()
     {
-        Customer loggedInUser;
+        Customer loggedInUser = getCustomer();
 
-        Map<String, Object> attributes = identity.getAttributes();
-        UserInfo userInfo = (UserInfo) attributes.get( "userinfo" );
-        if ( userInfo != null && userInfo.getUserInfoString() != null )
+        if ( StringUtils.isNotBlank( loggedInUser.getLogin() ) )
         {
-            try
-            {
-                Map userInfoMap = mapper.readValue( userInfo.getUserInfoString(), Map.class );
-                logger.debug( "userInfo Map: {}", userInfoMap );
-                loggedInUser = convertUser( userInfoMap );
-            }
-            catch ( JsonProcessingException e )
-            {
-                return Response.status( NOT_FOUND ).build();
-            }
-            Set<String> roles = getRoles();
-            logger.debug( "Roles {}", roles );
-
             return Response.ok( loggedInUser ).build();
         }
 
         return Response.status( NOT_FOUND ).build();
     }
 
-    private Set<String> getRoles()
-    {
-        Set<String> roles = identity.getRoles();
-        if ( roles != null && !roles.isEmpty() )
-        {
-            return roles;
-        }
-
-        //TODO: This still need to confirm if is right
-        return idToken.getGroups();
-    }
-
-    private Customer convertUser( Map<String, Object> userInfo )
+    private Customer getCustomer()
     {
         Customer user = new Customer();
-        String userName = (String) userInfo.get( "preferred_username" );
+        Map<String, String> userAttrs = principal.getUserAttributes();
+        String userName = userAttrs.get( UserManager.ATTR_USER_NAME );
         if ( isNotBlank( userName ) )
         {
             Customer detailedUser = client.findByLogin( userName );
@@ -97,20 +60,24 @@ public class CustomerResource
                 user = detailedUser;
             }
         }
-        final String firstName = (String) userInfo.get( "given_name" );
+        final String firstName = userAttrs.get( UserManager.ATTR_USER_FIRST_NAME );
         if ( isNotBlank( firstName ) )
         {
             user.setFirstName( firstName );
         }
-        final String lastName = (String) userInfo.get( "family_name" );
+        final String lastName = userAttrs.get( UserManager.ATTR_USER_LAST_NAME );
         if ( isNotBlank( lastName ) )
         {
             user.setLastName( lastName );
         }
-        final String email = (String) userInfo.get( "email" );
+        final String email = userAttrs.get( UserManager.ATTR_EMAIL );
         if ( isNotBlank( email ) )
         {
             user.setEmail( email );
+        }
+        if ( !principal.getRoles().isEmpty() )
+        {
+            user.setRole( principal.getRoles().stream().findFirst().get());
         }
 
         return user;
