@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {APP_ROOT} from '../Constants.js';
 import {jsonGet} from '../../RestClient.js';
 
-const LoggedInUser = function(){
+const getLoggedIn = () => {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
   const onClickUserAccount = () => {
@@ -22,6 +22,16 @@ const LoggedInUser = function(){
       }
     });
   }, []);
+
+  return user;
+};
+
+const LoggedInUser = function(){
+  let user = getLoggedIn();
+  const navigate = useNavigate();
+  const onClickUserAccount = () => {
+    navigate(`/shopping/showaccount`,{state: user});
+  };
   if(user){
     return (
       <React.Fragment>
@@ -73,6 +83,7 @@ const SearchForm = function(){
 };
 
 export default function NavHeader() {
+  let user = getLoggedIn()
   // eslint-disable-next-line max-lines-per-function
   // addons will be render based on the backend addons response, this is a mock;
   return (
@@ -89,11 +100,14 @@ export default function NavHeader() {
         </div>
 
         <div className="collapse navbar-collapse">
-          <ul className="nav navbar-nav">
-            <li>
-              <Link key="to-home" className="navbar-brand" to={`${APP_ROOT}/admin/category/search`}>Admin</Link>
-            </li>
-          </ul>
+          {
+            user.role==="admin" &&
+            <ul className="nav navbar-nav">
+              <li>
+                <Link key="to-home" className="navbar-brand" to={`${APP_ROOT}/admin/category/search`}>Admin</Link>
+              </li>
+            </ul>
+          }
           <ul className="nav navbar-nav navbar-right">
               <LoggedInUser />
               <li>

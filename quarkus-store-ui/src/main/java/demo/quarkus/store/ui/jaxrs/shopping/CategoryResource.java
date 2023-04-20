@@ -1,4 +1,4 @@
-package demo.quarkus.store.ui.jaxrs;
+package demo.quarkus.store.ui.jaxrs.shopping;
 
 import demo.quarkus.store.ui.model.Category;
 import demo.quarkus.store.ui.restclient.CategoryClient;

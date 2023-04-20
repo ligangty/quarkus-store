@@ -1,7 +1,7 @@
-package demo.quarkus.store.ui.jaxrs;
+package demo.quarkus.store.ui.jaxrs.shopping;
 
-import demo.quarkus.store.ui.model.Item;
-import demo.quarkus.store.ui.restclient.ItemClient;
+import demo.quarkus.store.ui.model.Product;
+import demo.quarkus.store.ui.restclient.ProductClient;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.inject.Inject;
@@ -19,17 +19,16 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path( "/api/items" )
-public class ItemResource
+@Path( "/api/products" )
+public class ProductResource
 {
-
     @Inject
     @RestClient
-    ItemClient client;
+    ProductClient client;
 
     @POST
     @Consumes( APPLICATION_JSON )
-    public Response create( Item entity )
+    public Response create( Product entity )
     {
         return client.create( entity );
     }
@@ -51,7 +50,7 @@ public class ItemResource
 
     @GET
     @Produces( APPLICATION_JSON )
-    public List<Item> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
+    public List<Product> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
     {
         return client.listAll( startPosition, maxResult );
     }
@@ -59,23 +58,16 @@ public class ItemResource
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
-    public Response update( @PathParam( "id" ) final Long id, Item entity )
+    public Response update( @PathParam( "id" ) final Long id, Product entity )
     {
         return client.update( id, entity );
     }
 
     @GET
-    @Path( "/byProduct" )
+    @Path( "/byCategory" )
     @Produces( APPLICATION_JSON )
-    public Response findByProduct( @QueryParam( "productId" ) final Long productId ){
-        return client.findByProduct( productId );
-    }
-
-    @GET
-    @Path( "/byKeyword" )
-    @Produces( APPLICATION_JSON )
-    public Response findByProduct( @QueryParam( "keyword" ) final String keyword )
+    public Response findProductsByCategory( @QueryParam( "category" ) final String categoryName )
     {
-        return client.searchByKeyword( keyword );
+        return client.findProductsByCategory( categoryName );
     }
 }

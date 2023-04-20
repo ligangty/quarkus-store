@@ -1,4 +1,4 @@
-package demo.quarkus.store.jaxrs;
+package demo.quarkus.store.jaxrs.shopping;
 
 import demo.quarkus.store.model.Customer;
 import demo.quarkus.store.service.CustomerService;

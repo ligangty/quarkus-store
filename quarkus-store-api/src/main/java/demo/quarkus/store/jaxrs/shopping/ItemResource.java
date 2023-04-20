@@ -1,16 +1,12 @@
-package demo.quarkus.store.jaxrs;
+package demo.quarkus.store.jaxrs.shopping;
 
-import demo.quarkus.store.model.Product;
-import demo.quarkus.store.service.ProductService;
+import demo.quarkus.store.model.Item;
+import demo.quarkus.store.service.ItemService;
 import demo.quarkus.store.util.Loggable;
-import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,32 +24,30 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path( "/api/products" )
+@Path( "/api/items" )
 @Loggable
-@Tag( name = "Product" )
-public class ProductResource
+@Tag( name = "Item" )
+public class ItemResource
 {
 
     @Inject
-    ProductService service;
+    ItemService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
-    @Operation( description = "Creates new product" )
-    public Response create( Product entity )
+    public Response create( Item entity )
     {
         service.persist( entity );
         return Response.created(
-                               UriBuilder.fromResource( ProductResource.class ).path( String.valueOf( entity.getId() ) ).build() )
+                               UriBuilder.fromResource( ItemResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
     }
 
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
-    @Operation( description = "Deletes a product by id" )
     public Response deleteById( @PathParam( "id" ) Long id )
     {
-        Product entity = service.findById( id );
+        Item entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -65,10 +59,9 @@ public class ProductResource
     @GET
     @Path( "/{id:[0-9][0-9]*}" )
     @Produces( APPLICATION_JSON )
-    @Operation( description = "Finds a product by id" )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        Product entity = service.findById( id );
+        Item entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -78,8 +71,7 @@ public class ProductResource
 
     @GET
     @Produces( APPLICATION_JSON )
-    @Operation( description = "Lists all products" )
-    public List<Product> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
+    public List<Item> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
     {
         return service.listAll( startPosition, maxResult );
     }
@@ -87,8 +79,8 @@ public class ProductResource
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
-    @Operation( description = "Updates a product" )
-    public Response update( @PathParam( "id" ) final Long id, final Product entity )
+    @Transactional
+    public Response update( @PathParam( "id" ) final Long id, Item entity )
     {
         try
         {
@@ -96,17 +88,26 @@ public class ProductResource
         }
         catch ( OptimisticLockException e )
         {
-            return Response.status( Response.Status.CONFLICT ).entity( e.getEntity() ).build();
+            return Response.status( Status.CONFLICT ).entity( e.getEntity() ).build();
         }
 
         return Response.noContent().build();
     }
 
     @GET
-    @Path( "/byCategory" )
+    @Path( "/byProduct" )
     @Produces( APPLICATION_JSON )
-    public Response findProductsByCategory( @QueryParam( "category" ) final String categoryName )
+    public Response findByProduct( @QueryParam( "productId" ) final Long productId )
     {
-        return Response.ok( service.findProductsByCategory( categoryName ) ).build();
+        return Response.ok( service.findItemsByProduct( productId ) ).build();
     }
+
+    @GET
+    @Path( "/byKeyword" )
+    @Produces( APPLICATION_JSON )
+    public Response searchByKeyword( @QueryParam( "keyword" ) final String keyword )
+    {
+        return Response.ok( service.searchItems( keyword ) ).build();
+    }
+
 }

@@ -1,4 +1,4 @@
-package demo.quarkus.store.ui.jaxrs;
+package demo.quarkus.store.ui.jaxrs.shopping;
 
 import demo.quarkus.store.common.auth.UserManager;
 import demo.quarkus.store.common.auth.UserRole;

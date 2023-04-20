@@ -1,13 +1,14 @@
-package demo.quarkus.store.jaxrs;
+package demo.quarkus.store.jaxrs.shopping;
 
-import demo.quarkus.store.model.Country;
-import demo.quarkus.store.service.CountryService;
+import demo.quarkus.store.model.Category;
+import demo.quarkus.store.service.CategoryService;
 import demo.quarkus.store.util.Loggable;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,33 +25,34 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path( "/api/countries" )
 @Loggable
-@Tag( name = "Country" )
-public class CountryResource
+@Tag( name = "Category" )
+@Path( "/api/categories" )
+public class CategoryResource
 {
 
     @Inject
-    CountryService service;
+    CategoryService service;
 
     @POST
     @Consumes( APPLICATION_JSON )
-    @Operation( description = "Creates a country" )
-    public Response create( Country entity )
+    @Operation( description = "Creates a category" )
+    public Response create( Category entity )
     {
         service.persist( entity );
         return Response.created(
-                               UriBuilder.fromResource( CountryResource.class ).path( String.valueOf( entity.getId() ) ).build() )
+                               UriBuilder.fromResource( CategoryResource.class ).path( String.valueOf( entity.getId() ) ).build() )
                        .build();
     }
 
     @DELETE
     @Path( "/{id:[0-9][0-9]*}" )
-    @Operation( description = "Deletes a country given an id" )
+    @Operation( description = "Deletes a category by id" )
+    @Transactional
     public Response deleteById( @PathParam( "id" ) Long id )
     {
 
-        Country entity = service.findById( id );
+        Category entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -62,10 +64,10 @@ public class CountryResource
     @GET
     @Path( "/{id:[0-9][0-9]*}" )
     @Produces( APPLICATION_JSON )
-    @Operation( description = "Retrieves a country by its id" )
+    @Operation( description = "Finds a category given an identifier" )
     public Response findById( @PathParam( "id" ) Long id )
     {
-        Country entity = service.findById( id );
+        Category entity = service.findById( id );
         if ( entity == null )
         {
             return Response.status( Status.NOT_FOUND ).build();
@@ -74,9 +76,10 @@ public class CountryResource
     }
 
     @GET
-    @Produces( "application/json" )
-    @Operation( description = "Lists all the countries" )
-    public List<Country> listAll( @QueryParam( "start" ) Integer startPosition, @QueryParam( "max" ) Integer maxResult )
+    @Produces( APPLICATION_JSON )
+    @Operation( description = "Lists all the categories" )
+    public List<Category> listAll( @QueryParam( "start" ) Integer startPosition,
+                                   @QueryParam( "max" ) Integer maxResult )
     {
         return service.listAll(startPosition, maxResult);
     }
@@ -84,8 +87,8 @@ public class CountryResource
     @PUT
     @Path( "/{id:[0-9][0-9]*}" )
     @Consumes( APPLICATION_JSON )
-    @Operation( description = "Updates a country" )
-    public Response update( @PathParam( "id" ) final Long id, Country entity )
+    @Operation( description = "Updates a category" )
+    public Response update( @PathParam( "id" ) final Long id, Category entity )
     {
         try
         {
