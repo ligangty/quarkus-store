@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 public @interface Price
 {
 
-    String message() default "{demo.quarkus.store.constraints.Price.message}";
+    String message() default "Invalid price";
 
     Class<?>[] groups() default {};
 

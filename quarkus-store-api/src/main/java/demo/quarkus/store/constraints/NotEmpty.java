@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 public @interface NotEmpty
 {
 
-    String message() default "{demo.quarkus.store.constraints.NotEmpty.message}";
+    String message() default "Not be empty";
 
     Class<?>[] groups() default {};
 

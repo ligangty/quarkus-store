@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 public @interface Email
 {
 
-    String message() default "{demo.quarkus.store.constraints.Email.message}";
+    String message() default "Invalid email format";
 
     Class<?>[] groups() default {};
 

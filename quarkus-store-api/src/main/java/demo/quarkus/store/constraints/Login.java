@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 public @interface Login
 {
 
-    String message() default "{demo.quarkus.store.constraints.Login.message}";
+    String message() default "Invalid login";
 
     Class<?>[] groups() default {};
 
