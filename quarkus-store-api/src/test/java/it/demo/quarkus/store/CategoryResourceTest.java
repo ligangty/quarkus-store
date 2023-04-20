@@ -18,13 +18,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
 @QuarkusTest
-@TestSecurity( roles = "user", user = "user" )
 public class CategoryResourceTest
 {
     @Inject
     ObjectMapper mapper;
 
     @Test
+    @TestSecurity( roles = "user", user = "user" )
     public void testCreate()
             throws Exception
 

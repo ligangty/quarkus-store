@@ -58,11 +58,16 @@ public class ShoppingCartService
 
     public Boolean addItemToCart( final Long itemId )
     {
-        Item item = itemService.findById( itemId );
 
         if ( getCustomer() == null )
         {
             logger.error( "User is empty. Maybe not logged in?" );
+            return false;
+        }
+        Item item = itemService.findById( itemId );
+        if ( item == null )
+        {
+            logger.warn( "Cannot add item to cart. Item not exists: {}", itemId );
             return false;
         }
         List<ShoppingCartItem> items = getCartItems();
@@ -90,10 +95,16 @@ public class ShoppingCartService
 
     public boolean removeItemFromCart( final Long itemId )
     {
-        Item item = itemService.findById( itemId );
+
         if ( getCustomer() == null )
         {
             logger.error( "User is empty. Maybe not logged in?" );
+            return false;
+        }
+        Item item = itemService.findById( itemId );
+        if ( item == null )
+        {
+            logger.warn( "Cannot remove item from cart. Item not exists: {}", itemId );
             return false;
         }
         List<ShoppingCartItem> items = getCartItems();

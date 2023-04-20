@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
 @QuarkusTest
-@TestSecurity( roles = "user", user = "user" )
+
 public class ProductResourceTest
 {
     @Inject
@@ -30,6 +30,7 @@ public class ProductResourceTest
     EntityManager em;
 
     @Test
+    @TestSecurity( roles = "user", user = "user" )
     public void testCreate()
             throws Exception
 

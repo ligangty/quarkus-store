@@ -10,10 +10,13 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/cart" )
 public class ShoppingCartResource
@@ -32,7 +35,7 @@ public class ShoppingCartResource
         }
         else
         {
-            return Response.status( Response.Status.INTERNAL_SERVER_ERROR ).build();
+            return Response.status( Response.Status.BAD_REQUEST ).build();
         }
     }
 
@@ -43,16 +46,17 @@ public class ShoppingCartResource
         boolean result = service.removeItemFromCart( Long.valueOf( itemId ) );
         if ( result )
         {
-            return Response.accepted().build();
+            return Response.status( Response.Status.NO_CONTENT).build();
         }
         else
         {
-            return Response.status( Response.Status.INTERNAL_SERVER_ERROR ).build();
+            return Response.status( Response.Status.BAD_REQUEST ).build();
         }
     }
 
     @GET
     @Path( "/items" )
+    @Produces( APPLICATION_JSON )
     public Response getCartItems()
     {
         List<ShoppingCartItem> items = service.getCartItems();
