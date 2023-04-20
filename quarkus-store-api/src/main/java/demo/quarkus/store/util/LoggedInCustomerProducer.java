@@ -38,6 +38,7 @@ public class LoggedInCustomerProducer
 
     @Produces
     @LoggedIn
+    @ApplicationScoped
     public Customer produceLoggedIn()
     {
         Customer user = new Customer();
