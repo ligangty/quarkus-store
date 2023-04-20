@@ -25,7 +25,6 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/products" )
-@Loggable
 @Tag( name = "Product" )
 public class ProductResource
 {

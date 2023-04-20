@@ -10,6 +10,8 @@ import demo.quarkus.store.model.PurchaseOrder;
 import demo.quarkus.store.util.Loggable;
 import demo.quarkus.store.view.shopping.ShoppingCartItem;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -22,6 +24,8 @@ import java.util.List;
 import java.util.Set;
 
 @Loggable
+@Named
+@ApplicationScoped
 public class PurchaseOrderService
         extends AbstractService<PurchaseOrder>
         implements Serializable

@@ -83,7 +83,7 @@ const SearchForm = function(){
 };
 
 export default function NavHeader() {
-  let user = getLoggedIn()
+  let user = getLoggedIn();
   // eslint-disable-next-line max-lines-per-function
   // addons will be render based on the backend addons response, this is a mock;
   return (

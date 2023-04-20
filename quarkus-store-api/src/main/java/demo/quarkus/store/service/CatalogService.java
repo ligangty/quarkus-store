@@ -5,6 +5,7 @@ import demo.quarkus.store.model.Item;
 import demo.quarkus.store.model.Product;
 import demo.quarkus.store.util.Loggable;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Loggable
+@ApplicationScoped
 public class CatalogService
         implements Serializable
 {

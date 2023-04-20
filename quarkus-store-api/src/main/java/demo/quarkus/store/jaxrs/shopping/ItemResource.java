@@ -25,7 +25,6 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/items" )
-@Loggable
 @Tag( name = "Item" )
 public class ItemResource
 {

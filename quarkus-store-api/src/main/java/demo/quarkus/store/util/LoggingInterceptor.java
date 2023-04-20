@@ -1,11 +1,12 @@
 package demo.quarkus.store.util;
 
-import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 @Loggable
 @Interceptor
@@ -13,23 +14,20 @@ public class LoggingInterceptor
         implements Serializable
 {
 
-    @Inject
-    transient Logger logger;
+    private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
     @AroundInvoke
     public Object intercept( InvocationContext ic )
             throws Exception
     {
-        logger.entering( ic.getTarget().getClass().getName(), ic.getMethod().getName() );
-        logger.info( ">>> " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName() );
+        logger.debug( ">>> " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName() );
         try
         {
             return ic.proceed();
         }
         finally
         {
-            logger.exiting( ic.getTarget().getClass().getName(), ic.getMethod().getName() );
-            logger.info( "<<< " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName() );
+            logger.debug( "<<< " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName() );
         }
     }
 }

@@ -20,7 +20,6 @@ import javax.ws.rs.core.Response.Status;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path( "/api/customers" )
-@Loggable
 @Tag( name = "Customer" )
 public class CustomerResource
 {

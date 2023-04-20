@@ -1,11 +1,12 @@
 package demo.quarkus.store.view;
 
-import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 @Interceptor
 @CatchException
@@ -13,12 +14,10 @@ public class ExceptionInterceptor
         implements Serializable
 {
 
-    @Inject
-    Logger log;
+    private final Logger log = LoggerFactory.getLogger( this.getClass() );
 
     @AroundInvoke
     public Object catchException( InvocationContext ic )
-            throws Exception
     {
         try
         {
@@ -27,7 +26,7 @@ public class ExceptionInterceptor
         catch ( Exception e )
         {
             addErrorMessage( e.getMessage() );
-            log.severe( "/!\\ " + ic.getTarget().getClass().getName() + " - " + ic.getMethod().getName() + " - "
+            log.error( "/!\\ " + ic.getTarget().getClass().getName() + " - " + ic.getMethod().getName() + " - "
                                 + e.getMessage() );
             e.printStackTrace();
         }
